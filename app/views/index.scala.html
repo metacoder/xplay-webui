@@ -68,7 +68,7 @@
                             if (msg.type == "location") {
                                 coords = new google.maps.LatLng(msg.latitude, msg.longitude)
                                 marker.setPosition(coords);
-                                map.setCenter(coords);
+                                map.panTo(coords);
                             } else if (msg.type == "pitchRollHeading") {
                                 plane.rotation = msg.trueHeading;
                                 marker.setIcon(plane);
