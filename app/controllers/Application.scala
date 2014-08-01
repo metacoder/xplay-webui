@@ -22,7 +22,7 @@ object Application extends Controller {
     val udpStatusFuture = ActorRegistry.xplaneDataReceiver ? GetUDPConnectionStatus
 
     udpStatusFuture.map {
-      case udpStatus => Ok(views.html.index(udpStatus.toString))
+      case udpStatus => Ok(views.html.index(udpStatus.asInstanceOf[UDPConnectionStatus].status))
     }
   }
 
