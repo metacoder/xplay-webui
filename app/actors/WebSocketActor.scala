@@ -1,6 +1,7 @@
 package actors
 
 import akka.actor.{Props, ActorRef, Actor}
+import model.GPSCoords
 
 /**
  * Created by benjamin on 8/1/14.
