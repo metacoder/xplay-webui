@@ -14,7 +14,4 @@ class PitchRollHeadingActor extends Actor {
     case MessageFloats(floats) => pitchRollHeading = Some(PitchRollHeading(floats(0), floats(1), floats(2), floats(3)))
     case GetPitchRollHeading => sender ! pitchRollHeading
   }
-
-
-
 }

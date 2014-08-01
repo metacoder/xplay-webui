@@ -18,30 +18,24 @@ class XPlaneUDPReceiverActor() extends Actor with XPlanePayloadParser {
   import context.system
   IO(Udp) ! Udp.Bind(self, new InetSocketAddress("127.0.0.1", 48000))
 
-
   def receive = {
 
     case Udp.Bound(local) => {
-      Logger.info("actor connected to udp")
+      Logger.info(s"actor bound to udp $local")
       context.become(receivingXplaneData(sender()))
     }
 
     case Udp.CommandFailed(command) => {
-      Logger.error(s"udp connection failed!")
+      Logger.error("udp connection failed!")
       context.become(connectFailed(command))
     }
 
     case GetUDPConnectionStatus => sender ! UDPConnectionStatus("connecting")
-
-    //case msg => println(s"unhandled msg received: $msg")
-
   }
 
   def receivingXplaneData(connection: ActorRef): Receive = {
 
     case Udp.Received(data, remote) => {
-
-
       try {
 
         // data is structured as the following: first 5 bytes are DATA@
@@ -70,21 +64,16 @@ class XPlaneUDPReceiverActor() extends Actor with XPlanePayloadParser {
       } catch {
         case e: Exception => Logger.error(s"exception caught while parsing message $data", e)
       }
-
     }
 
     case GetUDPConnectionStatus => {
       sender ! UDPConnectionStatus("ready, receiving data")
     }
-
   }
 
   def connectFailed(command: Command): Receive = {
     case GetUDPConnectionStatus => sender ! UDPConnectionStatus("failed")
   }
-
-
-
 }
 
 
