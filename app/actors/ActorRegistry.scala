@@ -14,4 +14,6 @@ object ActorRegistry {
   val gpsCoordsActor = system.actorOf(Props[GPSCoordsActor], name="gpscoordsactor")
   val pitchRollHeadingActor = system.actorOf(Props[PitchRollHeadingActor], name="pitchrollheadingactor")
   val xplaneDataReceiver = system.actorOf(Props[XPlaneUDPReceiverActor], name = "xplanereceiver")
+
+  val websocketRegistry = system.actorOf(Props[WebSocketRegistry], name = "websocketRegistry")
 }

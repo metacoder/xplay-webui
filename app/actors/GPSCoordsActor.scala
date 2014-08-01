@@ -16,8 +16,10 @@ class GPSCoordsActor() extends Actor with XPlanePayloadParser {
 
     case MessageFloats(coords) => {
       // 32 bytes, 4 byte floats
-      lastGPSPosition = Some(GPSCoords(coords(0), coords(1)))
-      Logger.debug(s"coords received: ${lastGPSPosition.get}")
+      val gpsCoords = GPSCoords(coords(0), coords(1))
+      lastGPSPosition = Some(gpsCoords)
+      ActorRegistry.websocketRegistry ! SendMessageToWebSockets(gpsCoords)
+      Logger.debug(s"coords received: ${gpsCoords}")
     }
 
     case GetGPSCoords => sender ! lastGPSPosition
