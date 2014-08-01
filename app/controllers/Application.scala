@@ -21,7 +21,7 @@ object Application extends Controller {
   def index = Action.async {
 
     allData().map {
-      case (udpStatus, gpsData, pitchRollHeading) => Ok(views.html.index("Hello", udpStatus, gpsData, pitchRollHeading))
+      case (udpStatus, gpsData, pitchRollHeading) => Ok(views.html.index(udpStatus, pitchRollHeading))
     }
 
   }
