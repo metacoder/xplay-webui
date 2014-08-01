@@ -7,7 +7,7 @@ import play.api.libs.concurrent.Akka._
 /**
  * Created by becker on 01.08.14.
  */
-object ActorRegistry extends GlobalSettings {
+object ActorRegistry {
 
   import play.api.Play.current
 
