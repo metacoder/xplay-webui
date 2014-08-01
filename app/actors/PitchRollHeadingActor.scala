@@ -1,10 +1,10 @@
 package actors
 
 import akka.actor.Actor
+import model.{MessageFloats, GetPitchRollHeading, PitchRollHeading}
 
-case class PitchRollHeading(pitch: Float, roll: Float, trueHeading: Float, magHeading: Float)
 
-object GetPitchRollHeading
+
 
 class PitchRollHeadingActor extends Actor {
 
