@@ -7,6 +7,8 @@ import play.api.mvc._
 import akka.pattern.ask
 import akka.util.Timeout
 
+import play.api.Play.current
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object Application extends Controller {
@@ -31,4 +33,7 @@ object Application extends Controller {
     }
   }
 
+  def websocket = WebSocket.acceptWithActor[String, String] { request => out =>
+    WebSocketActor.props(out)
+  }
 }
