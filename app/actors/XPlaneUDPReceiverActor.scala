@@ -5,18 +5,18 @@ import java.net.InetSocketAddress
 import akka.actor.{Actor, ActorRef}
 import akka.io.Udp.Command
 import akka.io.{Udp, IO}
+import model.{GetUDPConnectionStatus, UDPConnectionStatus, MessageFloats}
 import play.api.Logger
 
-/* Messages */
-case class MessageFloats(floats: List[Float])
-object GetUDPConnectionStatus
-case class UDPConnectionStatus(status: String)
+
+
+
 
 
 class XPlaneUDPReceiverActor() extends Actor with XPlanePayloadParser {
 
   import context.system
-  IO(Udp) ! Udp.Bind(self, new InetSocketAddress("127.0.0.1", 48000))
+  IO(Udp) ! Udp.Bind(self, new InetSocketAddress("0.0.0.0", 48000))
 
   def receive = {
 

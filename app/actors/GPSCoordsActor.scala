@@ -1,11 +1,12 @@
 package actors
 
 import akka.actor.Actor
+import model.{MessageFloats, GetGPSCoords, GPSCoords}
 import play.api.Logger
 
-case class GPSCoords(latitude: Float, longitude: Float)
 
-object GetGPSCoords
+
+
 
 class GPSCoordsActor() extends Actor with XPlanePayloadParser {
 
