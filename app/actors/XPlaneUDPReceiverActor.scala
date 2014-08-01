@@ -5,7 +5,7 @@ import java.net.InetSocketAddress
 import akka.actor.{Actor, ActorRef}
 import akka.io.Udp.Command
 import akka.io.{Udp, IO}
-import akka.util.ByteString
+import play.api.Logger
 
 /* Messages */
 case class MessageFloats(floats: List[Float])
@@ -22,12 +22,12 @@ class XPlaneUDPReceiverActor() extends Actor with XPlanePayloadParser {
   def receive = {
 
     case Udp.Bound(local) => {
-      println("actor connected to udp")
+      Logger.info("actor connected to udp")
       context.become(receivingXplaneData(sender()))
     }
 
     case Udp.CommandFailed(command) => {
-      println(s"command failed!")
+      Logger.error(s"udp connection failed!")
       context.become(connectFailed(command))
     }
 
@@ -62,18 +62,13 @@ class XPlaneUDPReceiverActor() extends Actor with XPlanePayloadParser {
             case 20 => ActorRegistry.gpsCoordsActor ! MessageFloats(floats)
             case 17 => ActorRegistry.pitchRollHeadingActor ! MessageFloats(floats)
 
-            case unknown => println(s"ignoring message type $unknown because i can't handle this")
+            case unknown => Logger.debug(s"ignoring message type $unknown because i can't handle this")
           }
 
         }
 
       } catch {
-
-        case e: Exception => {
-          println(s"exception caught while parsing message $data")
-          e.printStackTrace()
-        }
-
+        case e: Exception => Logger.error(s"exception caught while parsing message $data", e)
       }
 
     }

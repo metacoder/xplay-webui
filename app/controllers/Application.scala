@@ -23,10 +23,12 @@ object Application extends Controller {
       udpStatus <- udpStatusFuture
       gpsData <- gpsCoordsFuture
       pitchRollHeading <- pitchRollHeadingFuture
-    } yield (udpStatus, gpsData.asInstanceOf[Option[GPSCoords]], pitchRollHeading.asInstanceOf[Option[PitchRollHeading]])
+    } yield (udpStatus.toString, gpsData.asInstanceOf[Option[GPSCoords]], pitchRollHeading.asInstanceOf[Option[PitchRollHeading]])
 
 
-    yielded.map(result  => Ok(views.html.index("Hello", result._1.toString, result._2, result._3)))
+    yielded.map {
+      case (udpStatus, gpsData, pitchRollHeading) => Ok(views.html.index("Hello", udpStatus, gpsData, pitchRollHeading))
+    }
   }
 
 }
