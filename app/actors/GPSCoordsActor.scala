@@ -19,7 +19,7 @@ class GPSCoordsActor() extends Actor with XPlanePayloadParser {
       val gpsCoords = GPSCoords(coords(0), coords(1))
       lastGPSPosition = Some(gpsCoords)
       ActorRegistry.websocketRegistry ! SendMessageToWebSockets(gpsCoords)
-      Logger.debug(s"coords received: ${gpsCoords}")
+      Logger.debug(s"coords received: $gpsCoords")
     }
 
     case GetGPSCoords => sender ! lastGPSPosition
