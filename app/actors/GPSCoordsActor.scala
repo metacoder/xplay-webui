@@ -16,14 +16,11 @@ class GPSCoordsActor() extends Actor with XPlanePayloadParser {
     case MessageFloats(coords) => {
       // 32 bytes, 4 byte floats
       lastGPSPosition = Some(GPSCoords(coords(0), coords(1)))
-      Logger.debug("coords received: $coords")
+      Logger.debug(s"coords received: ${lastGPSPosition.get}")
     }
 
     case GetGPSCoords => sender ! lastGPSPosition
-
   }
-
-
 }
 
 
