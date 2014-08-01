@@ -1,8 +1,8 @@
 package actors
 
 import akka.actor.{Props, ActorRef, Actor}
-import model.GPSCoords
-import play.api.libs.json.Json
+import model.{GPSCoords,PitchRollHeading}
+import play.api.libs.json.{Writes, Json}
 
 /**
  * Created by benjamin on 8/1/14.
@@ -15,13 +15,27 @@ object WebSocketActor {
 class WebSocketActor(out: ActorRef) extends Actor {
   ActorRegistry.websocketRegistry ! RegisterWebSocket(self)
 
-  implicit val gpsFormat = Json.format[GPSCoords]
+  implicit val locationFormat = new Writes[GPSCoords] {
+    def writes(location: GPSCoords) = Json.obj(
+      "type" -> "location",
+      "latitude" -> location.latitude,
+      "longitude" -> location.longitude
+    )
+  }
+
+  implicit val pitchRollHeadingFormat = new Writes[PitchRollHeading] {
+    def writes(pitchRollHeading: PitchRollHeading) = Json.obj(
+      "type" -> "pitchRollHeading",
+      "pitch" -> pitchRollHeading.pitch,
+      "roll" -> pitchRollHeading.roll,
+      "trueHeading" -> pitchRollHeading.trueHeading,
+      "magHeading" -> pitchRollHeading.magHeading
+    )
+  }
 
   def receive = {
-    case coords: GPSCoords => {
-      val json = Json.toJson(coords).toString()
-      out ! json
-    }
+    case coords: GPSCoords => out ! Json.toJson(coords)
+    case pitchRollHeading: PitchRollHeading => out ! Json.toJson(pitchRollHeading)
     case msg => println(msg)
   }
 

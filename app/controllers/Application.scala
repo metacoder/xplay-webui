@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit
 
 import actors._
 import model._
-import play.api.libs.json.Json
+import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
 import akka.pattern.ask
 import akka.util.Timeout
@@ -19,11 +19,11 @@ object Application extends Controller {
   implicit val timeout = Timeout(5, TimeUnit.SECONDS)
 
   def index = Action.async {
+    val udpStatusFuture = ActorRegistry.xplaneDataReceiver ? GetUDPConnectionStatus
 
-    allData().map {
-      case (udpStatus, gpsData, pitchRollHeading) => Ok(views.html.index(udpStatus, pitchRollHeading))
+    udpStatusFuture.map {
+      case udpStatus => Ok(views.html.index(udpStatus.toString))
     }
-
   }
 
   private def allData() = {
@@ -51,7 +51,7 @@ object Application extends Controller {
    }
   }
 
-  def websocket = WebSocket.acceptWithActor[String, String] { request => out =>
+  def websocket = WebSocket.acceptWithActor[String, JsValue] { request => out =>
     WebSocketActor.props(out)
   }
 }
