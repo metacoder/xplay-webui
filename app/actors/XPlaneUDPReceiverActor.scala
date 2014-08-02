@@ -5,13 +5,8 @@ import java.net.InetSocketAddress
 import akka.actor.{Actor, ActorRef}
 import akka.io.Udp.Command
 import akka.io.{Udp, IO}
-import model.{GetUDPConnectionStatus, UDPConnectionStatus, MessageFloats}
+import model.{UDPConnectionStatus, MessageFloats}
 import play.api.Logger
-
-
-
-
-
 
 class XPlaneUDPReceiverActor() extends Actor with XPlanePayloadParser {
 
@@ -53,7 +48,7 @@ class XPlaneUDPReceiverActor() extends Actor with XPlanePayloadParser {
           val floats = parseFloatsFromMessage(messageContent)
 
           messageType match {
-            case 20 => ActorRegistry.gpsCoordsActor ! MessageFloats(floats)
+            case 20 => ActorRegistry.gpsPositionActor ! MessageFloats(floats)
             case 17 => ActorRegistry.pitchRollHeadingActor ! MessageFloats(floats)
 
             case unknown => Logger.debug(s"ignoring message type $unknown because i can't handle this")

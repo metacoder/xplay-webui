@@ -15,7 +15,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object Application extends Controller {
 
-
   implicit val timeout = Timeout(5, TimeUnit.SECONDS)
 
   def index = Action.async {
@@ -26,32 +25,31 @@ object Application extends Controller {
     }
   }
 
-  private def allData() = {
-    val udpStatusFuture = ActorRegistry.xplaneDataReceiver ? GetUDPConnectionStatus
-    val gpsCoordsFuture = ActorRegistry.gpsCoordsActor ? GetGPSCoords
-    val pitchRollHeadingFuture = ActorRegistry.pitchRollHeadingActor ? GetPitchRollHeading
-
-    for {
-      udpStatus <- udpStatusFuture
-      gpsData <- gpsCoordsFuture
-      pitchRollHeading <- pitchRollHeadingFuture
-    } yield (udpStatus.toString, gpsData.asInstanceOf[Option[GPSCoords]], pitchRollHeading.asInstanceOf[Option[PitchRollHeading]])
-
-  }
-
-  implicit val gpsCoordsFormat = Json.format[GPSCoords]
+  implicit val gpsPositionFormat = Json.format[GPSPosition]
   implicit val pitchRollHeadingFormat = Json.format[PitchRollHeading]
   implicit val pitchAndGps = Json.format[XPlaneData]
 
-  def indexJson = Action.async {
-   allData().map {
-     case (udpStatus, gpsData, pitchRollHeading) => {
-       Ok(Json.toJson(XPlaneData(gpsData, pitchRollHeading, udpStatus)))
-     }
-   }
+  def json = Action.async {
+    allData().map {
+      case (udpStatus, gpsPosition, pitchRollHeading) => {
+        Ok(Json.toJson(XPlaneData(gpsPosition, pitchRollHeading, udpStatus)))
+      }
+    }
   }
 
   def websocket = WebSocket.acceptWithActor[String, JsValue] { request => out =>
     WebSocketActor.props(out)
+  }
+
+  private def allData() = {
+    val udpStatusFuture = ActorRegistry.xplaneDataReceiver ? GetUDPConnectionStatus
+    val gpsPositionFuture = ActorRegistry.gpsPositionActor ? GetGPSPosition
+    val pitchRollHeadingFuture = ActorRegistry.pitchRollHeadingActor ? GetPitchRollHeading
+
+    for {
+      udpStatus <- udpStatusFuture
+      gpsPosition <- gpsPositionFuture
+      pitchRollHeading <- pitchRollHeadingFuture
+    } yield (udpStatus.asInstanceOf[UDPConnectionStatus].status, gpsPosition.asInstanceOf[Option[GPSPosition]], pitchRollHeading.asInstanceOf[Option[PitchRollHeading]])
   }
 }
