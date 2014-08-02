@@ -2,6 +2,9 @@ function MainCtrl($scope){
 
     $scope.centerMapOnAircraft = true;
     $scope.udpStatus = 'unknown';
+    $scope.udpStatusIcon = 'glyphicon-question-sign';
+    $scope.websocketStatus = 'connecting';
+    $scope.websocketStatusIcon = 'glyphicon-question-sign';
 
     /* ================================================================ */
     /* map code                                                         */
@@ -41,12 +44,24 @@ function MainCtrl($scope){
     var ws = new WebSocket ( 'ws://' + document.location.host + '/websocket' ) ;
     ws.onopen = function ( ) {
         console.log ( 'ws connected' ) ;
+        $scope.$apply(function() {
+            $scope.websocketStatus = 'connected';
+            $scope.websocketStatusIcon = STATUS.receiving;
+        });
     } ;
     ws.onerror = function ( ) {
         console.log ( 'ws error' ) ;
+        $scope.$apply(function() {
+            $scope.websocketStatus = 'error';
+            $scope.websocketStatusIcon = STATUS.error;
+        });
     } ;
     ws.onclose = function ( ) {
         console.log ( 'ws closed' ) ;
+        $scope.$apply(function() {
+            $scope.websocketStatus = 'disconnected';
+            $scope.websocketStatusIcon = STATUS.error;
+        });
     } ;
     ws.onmessage = function ( msgevent ) {
 
@@ -70,6 +85,7 @@ function MainCtrl($scope){
                 marker.setIcon(plane);
             } else if (msg.type == "udpConnectionStatus"){
                 $scope.udpStatus = msg.status;
+                $scope.udpStatusIcon = STATUS[msg.status];
             } else {
                 console.log('in :', msg);
             }
@@ -79,5 +95,14 @@ function MainCtrl($scope){
     } ;
 
 
+    /* ================================================================ */
+    /* status icon                                                      */
+    /* ================================================================ */
 
+    var STATUS = {
+        initializing : "glyphicon-question-sign",
+        waiting : "glyphicon-ok-sign text-warning",
+        receiving : "glyphicon-ok-sign text-success",
+        error : "glyphicon-remove-sign text-danger"
+    };
 }
