@@ -18,8 +18,10 @@ class WebSocketActor(out: ActorRef) extends Actor {
   implicit val positionFormat = new Writes[GPSPosition] {
     def writes(position: GPSPosition) = Json.obj(
       "type" -> "position",
-      "latitude" -> position.latitude,
-      "longitude" -> position.longitude
+      "lat" -> position.lat,
+      "lon" -> position.lon,
+      "ftmsl" -> position.ftmsl,
+      "ftagl" -> position.ftagl
     )
   }
 
