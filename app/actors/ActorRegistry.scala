@@ -11,9 +11,9 @@ object ActorRegistry {
 
   import play.api.Play.current
 
-  val gpsCoordsActor = system.actorOf(Props[GPSCoordsActor], name="gpscoordsactor")
-  val pitchRollHeadingActor = system.actorOf(Props[PitchRollHeadingActor], name="pitchrollheadingactor")
-  val xplaneDataReceiver = system.actorOf(Props[XPlaneUDPReceiverActor], name = "xplanereceiver")
+  val gpsPositionActor = system.actorOf(Props[GPSPositinonActor], name="gpsPositionActor")
+  val pitchRollHeadingActor = system.actorOf(Props[PitchRollHeadingActor], name="pitchRollHeadingActor")
+  val xplaneDataReceiver = system.actorOf(Props[XPlaneUDPReceiverActor], name = "xplaneReceiver")
 
   val websocketRegistry = system.actorOf(Props[WebSocketRegistry], name = "websocketRegistry")
 }

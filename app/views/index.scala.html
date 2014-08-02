@@ -1,5 +1,3 @@
-@import model.PitchRollHeading
-
 @(udpStatus: String)
 
 <!DOCTYPE html>
@@ -37,17 +35,17 @@
                             strokeWeight: 1
                         };
 
-                        var coords = new google.maps.LatLng ( 0,0 )
+                        var position = new google.maps.LatLng (0,0)
                         var myOptions = {
                             zoom: 12,
-                            center: coords,
+                            center: position,
                             mapTypeId: google.maps.MapTypeId.ROADMAP
                         };
 
                         var map = new google.maps.Map ( document.getElementById ( "map" ), myOptions ) ;
 
                         var marker = new google.maps.Marker({
-                            position: coords,
+                            position: position,
                             map: map,
                             title: "plane",
                             icon: plane
@@ -65,10 +63,10 @@
                         };
                         ws.onmessage = function(msgevent) {
                             var msg = JSON.parse(msgevent.data);
-                            if (msg.type == "location") {
-                                coords = new google.maps.LatLng(msg.latitude, msg.longitude)
-                                marker.setPosition(coords);
-                                map.panTo(coords);
+                            if (msg.type == "position") {
+                                position = new google.maps.LatLng(msg.latitude, msg.longitude)
+                                marker.setPosition(position);
+                                map.panTo(position);
                             } else if (msg.type == "pitchRollHeading") {
                                 plane.rotation = msg.trueHeading;
                                 marker.setIcon(plane);
