@@ -60,9 +60,13 @@
                         ws.onmessage = function(msgevent) {
                             var msg = JSON.parse(msgevent.data);
                             if (msg.type == "position") {
-                                position = new google.maps.LatLng(msg.latitude, msg.longitude)
+                                position = new google.maps.LatLng(msg.lat, msg.lon)
                                 marker.setPosition(position);
                                 map.panTo(position);
+                                $('#latitude').text(msg.lat.toFixed(3))
+                                $('#longitude').text(msg.lon.toFixed(3))
+                                $('#altitude').text(Math.round(msg.ftmsl)+' ft')
+                                $('#overGround').text(Math.round(msg.ftagl)+' ft')
                             } else if (msg.type == "pitchRollHeading") {
                                 plane.rotation = msg.trueHeading;
                                 marker.setIcon(plane);
@@ -75,6 +79,11 @@
                 <div class="col-lg-2 well pull-right">
                     <h3>XPlay WebUI</h3>
                     UDP-Status: <span id="udpStatus">@udpStatus</span>
+                    <h4>Position</h4>
+                    Latitude: <span id="latitude"></span><br/>
+                    Longitude: <span id="longitude"></span><br/>
+                    Altitude: <span id="altitude"></span><br/>
+                    Above Ground: <span id="overGround"></span><br/>
                 </div>
             </div>
         </div>
