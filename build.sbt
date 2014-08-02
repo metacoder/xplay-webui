@@ -15,6 +15,8 @@ libraryDependencies ++= Seq(
   ws
 )
 
+scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
+
 libraryDependencies += "org.webjars" % "bootstrap" % "3.2.0"
 
 libraryDependencies += "org.webjars" %% "webjars-play" % "2.3.0"
