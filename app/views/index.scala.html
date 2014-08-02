@@ -22,21 +22,21 @@
         <div class="container-fluid" ng-controller="MainCtrl">
             <div class="row">
                 <!-- map content -->
-                <div class="col-lg-10 well map-container">
+                <div class="col-lg-10 col-md-9 col-xs-9 well map-container">
                     <div id="map"></div>
                 </div>
                 <!-- sidebar -->
-                <div class="col-lg-2 well pull-right">
-                        <h3>XPlay WebUI</h3>
-                        UDP-Status: <span class="glyphicon" ng-class="udpStatusIcon"></span> <span id="udpStatus">{{udpStatus}}</span><br/>
-                        WebSocket-Status: <span class="glyphicon" ng-class="websocketStatusIcon"></span> <span id="websocketStatus">{{websocketStatus}}</span>
-                        <h4>Settings</h4>
-                        Center Map on Aircraft: <input type="checkbox" ng-model="centerMapOnAircraft" />
-                        <h4>Position</h4>
-                        Latitude: <span id="latitude">{{latitude}}</span><br/>
-                        Longitude: <span id="longitude">{{longitude}}</span><br/>
-                        Altitude: <span id="altitude">{{altitude}}</span><br/>
-                        Above Ground: <span id="overGround">{{overGround}}</span><br/>
+                <div class="col-lg-2 col-md-3 col-xs-3 well pull-right">
+                    <h3>XPlay WebUI</h3>
+                    UDP-Status: <span class="glyphicon" ng-class="udpStatusIcon"></span> <span id="udpStatus">{{udpStatus}}</span><br/>
+                    WebSocket-Status: <span class="glyphicon" ng-class="websocketStatusIcon"></span> <span id="websocketStatus">{{websocketStatus}}</span>
+                    <h4>Settings</h4>
+                    Center Map on Aircraft: <input type="checkbox" ng-model="centerMapOnAircraft" />
+                    <h4>Position</h4>
+                    Latitude: <span id="latitude">{{latitude}}</span><br/>
+                    Longitude: <span id="longitude">{{longitude}}</span><br/>
+                    Altitude: <span id="altitude">{{altitude}}</span><br/>
+                    Above Ground: <span id="overGround">{{overGround}}</span><br/>
                 </div>
             </div>
         </div>
