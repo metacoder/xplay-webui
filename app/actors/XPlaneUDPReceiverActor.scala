@@ -3,11 +3,9 @@ package actors
 import java.net.InetSocketAddress
 
 import akka.actor.{Actor, ActorRef}
-import akka.io.Udp.Command
 import akka.io.{Udp, IO}
-import model.{UDPConnectionStatus, MessageFloats}
+import model.MessageFloats
 import play.api.Logger
-import play.mvc.Results.Todo
 
 class XPlaneUDPReceiverActor() extends Actor with XPlanePayloadParser {
 
@@ -16,7 +14,6 @@ class XPlaneUDPReceiverActor() extends Actor with XPlanePayloadParser {
   import context.system
 
   IO(Udp) ! Udp.Bind(self, new InetSocketAddress("0.0.0.0", 48000))
-
 
   def receive = {
 
@@ -35,7 +32,7 @@ class XPlaneUDPReceiverActor() extends Actor with XPlanePayloadParser {
 
   def receivingXplaneData(connection: ActorRef): Receive = {
 
-    case Udp.Received(data, remote) =>
+    case Udp.Received(data, remote) => {
 
       udpConnectionStatusActor ! UDPConnectionStatusActorMessages.MessageReceived
 
@@ -68,9 +65,7 @@ class XPlaneUDPReceiverActor() extends Actor with XPlanePayloadParser {
         case e: Exception => Logger.error(s"exception caught while parsing message $data", e)
       }
     }
-
-
-
+  }
 }
 
 

@@ -23,7 +23,6 @@ class UDPConnectionStatusActor extends Actor {
 
   var lastMessageReceived: Option[Long] = None
 
-
   override def receive: Receive = {
 
     case MessageReceived =>
@@ -72,6 +71,4 @@ class UDPConnectionStatusActor extends Actor {
   def error: Receive = {
     case SendStatusToWebSocketActor(actor) => actor ! statusError
   }
-
-
 }
