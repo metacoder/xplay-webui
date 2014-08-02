@@ -13,7 +13,6 @@
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
         <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))"></script>
         <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.js"))"></script>
-        <!--<script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("Chart.min.js"))"></script> -->
         <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("angular.min.js"))"></script>
         <script type="text/javascript" src="@routes.Assets.at("javascripts/app.js")"></script>
 
@@ -29,7 +28,8 @@
                 <!-- sidebar -->
                 <div class="col-lg-2 well pull-right">
                         <h3>XPlay WebUI</h3>
-                        UDP-Status: <span id="udpStatus">{{udpStatus}}</span>
+                        UDP-Status: <span class="glyphicon" ng-class="udpStatusIcon"></span> <span id="udpStatus">{{udpStatus}}</span><br/>
+                        WebSocket-Status: <span class="glyphicon" ng-class="websocketStatusIcon"></span> <span id="websocketStatus">{{websocketStatus}}</span>
                         <h4>Settings</h4>
                         Center Map on Aircraft: <input type="checkbox" ng-model="centerMapOnAircraft" />
                         <h4>Position</h4>

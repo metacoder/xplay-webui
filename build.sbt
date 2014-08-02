@@ -8,14 +8,14 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.11.1"
 
+scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
+
 libraryDependencies ++= Seq(
   jdbc,
   anorm,
   cache,
   ws
 )
-
-scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
 
 libraryDependencies += "org.webjars" % "bootstrap" % "3.2.0"
 
