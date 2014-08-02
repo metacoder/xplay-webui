@@ -7,30 +7,38 @@ import akka.io.Udp.Command
 import akka.io.{Udp, IO}
 import model.{UDPConnectionStatus, MessageFloats}
 import play.api.Logger
+import play.mvc.Results.Todo
 
 class XPlaneUDPReceiverActor() extends Actor with XPlanePayloadParser {
 
+  import ActorRegistry.udpConnectionStatusActor
+
   import context.system
+
   IO(Udp) ! Udp.Bind(self, new InetSocketAddress("0.0.0.0", 48000))
+
 
   def receive = {
 
-    case Udp.Bound(local) => {
+    case Udp.Bound(local) =>
+      udpConnectionStatusActor ! UDPConnectionStatusActorMessages.Bound
       Logger.info(s"actor bound to udp $local")
       context.become(receivingXplaneData(sender()))
-    }
 
-    case Udp.CommandFailed(command) => {
+
+    case Udp.CommandFailed(command) =>
+      udpConnectionStatusActor ! UDPConnectionStatusActorMessages.Error
       Logger.error("udp connection failed!")
-      context.become(connectFailed(command))
-    }
+      // finite state
 
-    case GetUDPConnectionStatus => sender ! UDPConnectionStatus("connecting")
   }
 
   def receivingXplaneData(connection: ActorRef): Receive = {
 
-    case Udp.Received(data, remote) => {
+    case Udp.Received(data, remote) =>
+
+      udpConnectionStatusActor ! UDPConnectionStatusActorMessages.MessageReceived
+
       try {
 
         // data is structured as the following: first 5 bytes are DATA@
@@ -61,14 +69,8 @@ class XPlaneUDPReceiverActor() extends Actor with XPlanePayloadParser {
       }
     }
 
-    case GetUDPConnectionStatus => {
-      sender ! UDPConnectionStatus("ready, receiving data")
-    }
-  }
 
-  def connectFailed(command: Command): Receive = {
-    case GetUDPConnectionStatus => sender ! UDPConnectionStatus("failed")
-  }
+
 }
 
 

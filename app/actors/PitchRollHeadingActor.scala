@@ -13,6 +13,5 @@ class PitchRollHeadingActor extends Actor {
       lastPitchRollHeading = Some(pitchRollHeading)
       ActorRegistry.websocketRegistry ! SendMessageToWebSockets(pitchRollHeading)
     }
-    case GetPitchRollHeading => sender ! lastPitchRollHeading
   }
 }

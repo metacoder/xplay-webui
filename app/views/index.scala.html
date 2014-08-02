@@ -1,4 +1,4 @@
-@(udpStatus: String)
+@()
 
 <!DOCTYPE html>
 
@@ -13,7 +13,7 @@
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
         <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))"></script>
         <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.js"))"></script>
-        <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("Chart.min.js"))"></script>
+        <!--<script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("Chart.min.js"))"></script> -->
         <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("angular.min.js"))"></script>
         <script type="text/javascript" src="@routes.Assets.at("javascripts/app.js")"></script>
 
@@ -29,7 +29,7 @@
                 <!-- sidebar -->
                 <div class="col-lg-2 well pull-right">
                         <h3>XPlay WebUI</h3>
-                        UDP-Status: <span id="udpStatus">@udpStatus</span>
+                        UDP-Status: <span id="udpStatus">{{udpStatus}}</span>
                         <h4>Settings</h4>
                         Center Map on Aircraft: <input type="checkbox" ng-model="centerMapOnAircraft" />
                         <h4>Position</h4>
@@ -37,8 +37,6 @@
                         Longitude: <span id="longitude">{{longitude}}</span><br/>
                         Altitude: <span id="altitude">{{altitude}}</span><br/>
                         Above Ground: <span id="overGround">{{overGround}}</span><br/>
-                        <canvas id="myChart"></canvas>
-
                 </div>
             </div>
         </div>
