@@ -8,7 +8,7 @@ import play.api.Logger
 
 
 
-class GPSPositinonActor() extends Actor with XPlanePayloadParser {
+class GPSPositionActor() extends Actor with XPlanePayloadParser {
 
   var lastGPSPosition: Option[GPSPosition] = None
 
@@ -22,7 +22,6 @@ class GPSPositinonActor() extends Actor with XPlanePayloadParser {
       Logger.debug(s"position received: $gpsPosition")
     }
 
-    case GetGPSPosition => sender ! lastGPSPosition
   }
 }
 
