@@ -55,6 +55,7 @@ class XPlaneUDPReceiverActor() extends Actor with XPlanePayloadParser {
           messageType match {
             case 20 => ActorRegistry.gpsPositionActor ! MessageFloats(floats)
             case 17 => ActorRegistry.pitchRollHeadingActor ! MessageFloats(floats)
+            case 3 => ActorRegistry.speedActor ! MessageFloats(floats)
 
             case unknown => Logger.debug(s"ignoring message type $unknown because i can't handle this")
           }
