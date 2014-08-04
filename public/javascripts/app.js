@@ -83,6 +83,8 @@ function MainCtrl($scope){
             } else if (msg.type == "pitchRollHeading") {
                 plane.rotation = msg.trueHeading;
                 marker.setIcon(plane);
+            } else if (msg.type == "speed") {
+                $scope.indKias = Math.round(msg.indKias) + ' knots';
             } else if (msg.type == "udpConnectionStatus"){
                 $scope.udpStatus = msg.status;
                 $scope.udpStatusIcon = STATUS[msg.status];

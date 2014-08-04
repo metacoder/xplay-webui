@@ -2,7 +2,7 @@ package actors
 
 import actors.UDPConnectionStatusActorMessages.SendStatusToWebSocketActor
 import akka.actor.{Props, ActorRef, Actor}
-import model.{UDPConnectionStatus, GPSPosition, PitchRollHeading}
+import model.{Speed, UDPConnectionStatus, GPSPosition, PitchRollHeading}
 import play.api.libs.json.{Writes, Json}
 
 /**
@@ -36,6 +36,13 @@ class WebSocketActor(out: ActorRef) extends Actor {
     )
   }
 
+  implicit val speedFormat = new Writes[Speed] {
+    def writes(speed: Speed) = Json.obj(
+      "type" -> "speed",
+      "indKias" -> speed.indKias
+    )
+  }
+
   implicit val udpConnectionStatusFormat = new Writes[UDPConnectionStatus] {
     def writes(udpConnectionStatus: UDPConnectionStatus) = Json.obj(
       "type" -> "udpConnectionStatus",
@@ -46,6 +53,7 @@ class WebSocketActor(out: ActorRef) extends Actor {
   def receive = {
     case position: GPSPosition => out ! Json.toJson(position)
     case pitchRollHeading: PitchRollHeading => out ! Json.toJson(pitchRollHeading)
+    case speed: Speed => out ! Json.toJson(speed)
     case status: UDPConnectionStatus => out ! Json.toJson(status)
     case msg => println(msg)
   }
