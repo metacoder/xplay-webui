@@ -92,6 +92,7 @@ function MainCtrl($scope){
                 marker.setIcon(plane);
             } else if (msg.type == "speed") {
                 $scope.indKias = Math.round(msg.indKias) + ' knots';
+                $scope.trueKtgs = Math.round(msg.trueKtgs) + ' knots';
             } else if (msg.type == "udpConnectionStatus"){
                 $scope.udpStatus = msg.status;
                 $scope.udpStatusIcon = STATUS[msg.status];
@@ -110,8 +111,8 @@ function MainCtrl($scope){
 
     var STATUS = {
         initializing : "glyphicon-question-sign",
-        waiting : "glyphicon-ok-sign text-warning",
-        receiving : "glyphicon-ok-sign text-success",
-        error : "glyphicon-remove-sign text-danger"
+        waiting : "glyphicon-ok-sign icon-warning",
+        receiving : "glyphicon-ok-sign icon-success",
+        error : "glyphicon-remove-sign icon-danger"
     };
 }

@@ -39,7 +39,8 @@ class WebSocketActor(out: ActorRef) extends Actor {
   implicit val speedFormat = new Writes[Speed] {
     def writes(speed: Speed) = Json.obj(
       "type" -> "speed",
-      "indKias" -> speed.indKias
+      "indKias" -> speed.indKias,
+      "trueKtgs" -> speed.trueKtgs
     )
   }
 
