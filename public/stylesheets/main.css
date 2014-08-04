@@ -13,3 +13,13 @@ html, body {
     width:100%;
     height:100%;
 }
+
+.icon-success {
+    color: #5cb85c;
+}
+.icon-warning {
+    color: #f0ad4e;
+}
+.icon-danger {
+    color: #d9534f;
+}

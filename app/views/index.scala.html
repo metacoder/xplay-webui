@@ -32,14 +32,23 @@
                     UDP-Status: <span class="glyphicon" ng-class="udpStatusIcon"></span> <span id="udpStatus">{{udpStatus}}</span><br/>
                     WebSocket-Status: <span class="glyphicon" ng-class="websocketStatusIcon"></span> <span id="websocketStatus">{{websocketStatus}}</span>
                     <h4>Settings</h4>
-                    Center Map on Aircraft: <input type="checkbox" ng-model="centerMapOnAircraft" />
-                    <h4>Position</h4>
-                    Latitude: <span id="latitude">{{latitude}}</span><br/>
-                    Longitude: <span id="longitude">{{longitude}}</span><br/>
-                    Altitude: <span id="altitude">{{altitude}}</span><br/>
-                    Above Ground: <span id="overGround">{{overGround}}</span>
-                    <h4>Speed</h4>
-                    Speed: <span id="indKias">{{indKias}}</span>
+                    <button class="btn" ng-class="{true: 'btn-success', false: 'btn-danger'}[centerMapOnAircraft]" ng-click="centerMapOnAircraft = !centerMapOnAircraft">
+                        <span class="glyphicon glyphicon-ok" ng-show="centerMapOnAircraft"></span>
+                        <span class="glyphicon glyphicon-remove" ng-show="!centerMapOnAircraft"></span>
+                        Center Map on Aircraft
+                    </button>
+                    <div ng-if="latitude">
+                        <h4>Position</h4>
+                        Latitude: <span id="latitude">{{latitude}}</span><br/>
+                        Longitude: <span id="longitude">{{longitude}}</span><br/>
+                        Altitude: <span id="altitude">{{altitude}}</span><br/>
+                        Above Ground: <span id="overGround">{{overGround}}</span>
+                    </div>
+                    <div ng-if="indKias">
+                        <h4>Speed</h4>
+                        Indicated Speed: <span id="indKias">{{indKias}}</span><br/>
+                        True Ground Speed: <span id="trueKtgs">{{trueKtgs}}</span>
+                    </div>
                 </div>
             </div>
         </div>
