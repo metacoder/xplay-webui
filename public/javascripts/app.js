@@ -38,6 +38,18 @@ function MainCtrl($scope){
 
 
     /* ================================================================ */
+    /* charts                                                           */
+    /* ================================================================ */
+
+    var altitudeSeries = new TimeSeries();
+    var groundSeries = new TimeSeries();
+    var altitudeChart = new SmoothieChart({millisPerPixel:100, maxValueScale:1.05, minValue:0});
+    altitudeChart.addTimeSeries(altitudeSeries,{lineWidth:2,strokeStyle:'#0072ff',fillStyle:'rgba(0,114,255,0.30)'});
+    altitudeChart.addTimeSeries(groundSeries, {lineWidth:2,fillStyle:'#ffffff'});
+    altitudeChart.streamTo(document.getElementById("altitudeChart"), 250);
+
+
+    /* ================================================================ */
     /* websocket code                                                   */
     /* ================================================================ */
 
@@ -87,6 +99,8 @@ function MainCtrl($scope){
                 $scope.longitude = msg.lon.toFixed(3);
                 $scope.altitude = Math.round(msg.ftmsl) + ' ft';
                 $scope.overGround = Math.round(msg.ftagl) + ' ft';
+                altitudeSeries.append(new Date().getTime(), msg.ftmsl);
+                groundSeries.append(new Date().getTime(), (msg.ftmsl - msg.ftagl));
             } else if (msg.type == "pitchRollHeading") {
                 plane.rotation = msg.trueHeading;
                 marker.setIcon(plane);
