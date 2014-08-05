@@ -1,10 +1,21 @@
 function MainCtrl($scope){
 
-    $scope.centerMapOnAircraft = true;
-    $scope.udpStatus = 'unknown';
-    $scope.udpStatusIcon = 'glyphicon-question-sign';
-    $scope.websocketStatus = 'connecting';
-    $scope.websocketStatusIcon = 'glyphicon-question-sign';
+
+    /* ================================================================ */
+    /* settings                                                         */
+    /* ================================================================ */
+
+    if (localStorage.settings) {
+        $scope.settings = JSON.parse(localStorage.settings);
+    } else {
+        $scope.settings = {};
+        // Default Settings
+        $scope.settings.centerMapOnAircraft = true;
+    }
+
+    $scope.$watch('settings', function() {
+        localStorage.settings = JSON.stringify($scope.settings);
+    }, true);
 
 
     /* ================================================================ */
@@ -91,7 +102,7 @@ function MainCtrl($scope){
                 position = new google.maps.LatLng(msg.lat, msg.lon)
                 marker.setPosition(position);
 
-                if ($scope.centerMapOnAircraft) {
+                if ($scope.settings.centerMapOnAircraft) {
                     map.panTo(position);
                 }
 
@@ -120,8 +131,13 @@ function MainCtrl($scope){
 
 
     /* ================================================================ */
-    /* status icon                                                      */
+    /* connection status                                                */
     /* ================================================================ */
+
+    $scope.udpStatus = 'unknown';
+    $scope.udpStatusIcon = 'glyphicon-question-sign';
+    $scope.websocketStatus = 'connecting';
+    $scope.websocketStatusIcon = 'glyphicon-question-sign';
 
     var STATUS = {
         initializing : "glyphicon-question-sign",

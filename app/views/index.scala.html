@@ -33,9 +33,9 @@
                     UDP-Status: <span class="glyphicon" ng-class="udpStatusIcon"></span> <span id="udpStatus">{{udpStatus}}</span><br/>
                     WebSocket-Status: <span class="glyphicon" ng-class="websocketStatusIcon"></span> <span id="websocketStatus">{{websocketStatus}}</span>
                     <h4>Settings</h4>
-                    <button class="btn" ng-class="{true: 'btn-success', false: 'btn-danger'}[centerMapOnAircraft]" ng-click="centerMapOnAircraft = !centerMapOnAircraft">
-                        <span class="glyphicon glyphicon-ok" ng-show="centerMapOnAircraft"></span>
-                        <span class="glyphicon glyphicon-remove" ng-show="!centerMapOnAircraft"></span>
+                    <button class="btn" ng-class="{true: 'btn-success', false: 'btn-danger'}[settings.centerMapOnAircraft]" ng-click="settings.centerMapOnAircraft = !settings.centerMapOnAircraft">
+                        <span class="glyphicon glyphicon-ok" ng-show="settings.centerMapOnAircraft"></span>
+                        <span class="glyphicon glyphicon-remove" ng-show="!settings.centerMapOnAircraft"></span>
                         Center Map on Aircraft
                     </button>
                     <div ng-if="latitude">
