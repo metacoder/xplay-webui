@@ -1,4 +1,4 @@
-function MainCtrl($scope){
+function MainCtrl($scope, $timeout){
 
 
     /* ================================================================ */
@@ -8,7 +8,8 @@ function MainCtrl($scope){
     var defaultSettings = {
         map: {
             zoomLevel: 12
-        }
+        },
+        fullscreen: false
     };
 
     function loadDefaultSettings(settings, defaultSettings) {
@@ -71,12 +72,15 @@ function MainCtrl($scope){
     });
 
     google.maps.event.addListener(map, 'drag', function() {
-        console.log("drag");
         if ($scope.followAircraft) {
             $scope.$apply(function() {
                 $scope.followAircraft = false;
             });
         }
+    });
+
+    $scope.$watch('settings.fullscreen', function() {
+        $timeout(function () { google.maps.event.trigger(map, 'resize'); }, 0);
     });
 
 

@@ -1,5 +1,3 @@
-@()
-
 <!DOCTYPE html>
 
 <html>
@@ -22,10 +20,10 @@
     </head>
     <body ng-app>
         <div class="container-fluid" ng-controller="MainCtrl">
-            <div class="row">
+            <div class="row xplay-container" ng-class="{true: 'fullscreen'}[settings.fullscreen]">
                 <!-- map content -->
-                <div class="col-lg-10 col-md-9 col-xs-9 well map-container">
-                    <div class="inner-map-container">
+                <div id="map-container">
+                    <div id="inner-map-container">
                         <div id="map"></div>
 
                         <button id="followAircraft" class="btn" ng-class="{true: 'btn-success', false: 'btn-danger'}[followAircraft]" ng-click="followAircraft = !followAircraft">
@@ -36,25 +34,29 @@
                     </div>
                 </div>
                 <!-- sidebar -->
-                <div class="col-lg-2 col-md-3 col-xs-3 well pull-right">
+                <div id="sidebar">
+                    <span class="button-icon glyphicon glyphicon-chevron-right pull-right" ng-show="!settings.fullscreen" ng-click="settings.fullscreen = true"></span>
+                    <span class="button-icon glyphicon glyphicon-chevron-left" ng-show="settings.fullscreen" ng-click="settings.fullscreen = false"></span>
                     <h3>XPlay WebUI</h3>
-                    UDP-Status: <span class="glyphicon" ng-class="udpStatusIcon"></span> <span id="udpStatus">{{udpStatus}}</span><br/>
-                    WebSocket-Status: <span class="glyphicon" ng-class="websocketStatusIcon"></span> <span id="websocketStatus">{{websocketStatus}}</span>
-                    <div ng-if="latitude">
-                        <h4>Position</h4>
-                        Latitude: <span id="latitude">{{latitude}}</span><br/>
-                        Longitude: <span id="longitude">{{longitude}}</span><br/>
-                        Altitude: <span id="altitude">{{altitude}}</span><br/>
-                        Above Ground: <span id="overGround">{{overGround}}</span>
-                    </div>
-                    <div ng-if="indKias">
-                        <h4>Speed</h4>
-                        Indicated Speed: <span id="indKias">{{indKias}}</span><br/>
-                        True Ground Speed: <span id="trueKtgs">{{trueKtgs}}</span>
-                    </div>
-                    <div ng-show="altitude">
-                        <h4>Altitude</h4>
-                        <canvas id="altitudeChart" height="200" style="width: 100%"></canvas>
+                    <span class="hide-fullscreen">UDP-Status:</span> <span class="glyphicon" ng-class="udpStatusIcon" title="UDP-Status: {{udpStatus}}"></span> <span id="udpStatus" class="hide-fullscreen">{{udpStatus}}</span><br/>
+                    <span class="hide-fullscreen">WebSocket-Status:</span> <span class="glyphicon" ng-class="websocketStatusIcon" title="WebSocket-Status: {{websocketStatus}}"></span> <span id="websocketStatus" class="hide-fullscreen">{{websocketStatus}}</span>
+                    <div ng-show="!settings.fullscreen">
+                        <div ng-if="latitude">
+                            <h4>Position</h4>
+                            Latitude: <span id="latitude">{{latitude}}</span><br/>
+                            Longitude: <span id="longitude">{{longitude}}</span><br/>
+                            Altitude: <span id="altitude">{{altitude}}</span><br/>
+                            Above Ground: <span id="overGround">{{overGround}}</span>
+                        </div>
+                        <div ng-if="indKias">
+                            <h4>Speed</h4>
+                            Indicated Speed: <span id="indKias">{{indKias}}</span><br/>
+                            True Ground Speed: <span id="trueKtgs">{{trueKtgs}}</span>
+                        </div>
+                        <div ng-show="altitude">
+                            <h4>Altitude</h4>
+                            <canvas id="altitudeChart" height="200" style="width: 100%"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
