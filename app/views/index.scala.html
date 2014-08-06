@@ -25,19 +25,21 @@
             <div class="row">
                 <!-- map content -->
                 <div class="col-lg-10 col-md-9 col-xs-9 well map-container">
-                    <div id="map"></div>
+                    <div class="inner-map-container">
+                        <div id="map"></div>
+
+                        <button id="followAircraft" class="btn" ng-class="{true: 'btn-success', false: 'btn-danger'}[followAircraft]" ng-click="followAircraft = !followAircraft">
+                            <span class="glyphicon glyphicon-ok" ng-show="followAircraft"></span>
+                            <span class="glyphicon glyphicon-remove" ng-show="!followAircraft"></span>
+                            Follow Aircraft
+                        </button>
+                    </div>
                 </div>
                 <!-- sidebar -->
                 <div class="col-lg-2 col-md-3 col-xs-3 well pull-right">
                     <h3>XPlay WebUI</h3>
                     UDP-Status: <span class="glyphicon" ng-class="udpStatusIcon"></span> <span id="udpStatus">{{udpStatus}}</span><br/>
                     WebSocket-Status: <span class="glyphicon" ng-class="websocketStatusIcon"></span> <span id="websocketStatus">{{websocketStatus}}</span>
-                    <h4>Settings</h4>
-                    <button class="btn" ng-class="{true: 'btn-success', false: 'btn-danger'}[settings.map.centerMapOnAircraft]" ng-click="settings.map.centerMapOnAircraft = !settings.map.centerMapOnAircraft">
-                        <span class="glyphicon glyphicon-ok" ng-show="settings.map.centerMapOnAircraft"></span>
-                        <span class="glyphicon glyphicon-remove" ng-show="!settings.map.centerMapOnAircraft"></span>
-                        Center Map on Aircraft
-                    </button>
                     <div ng-if="latitude">
                         <h4>Position</h4>
                         Latitude: <span id="latitude">{{latitude}}</span><br/>
