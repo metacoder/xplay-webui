@@ -88,11 +88,17 @@ function MainCtrl($scope, $timeout){
     /* charts                                                           */
     /* ================================================================ */
 
+    function altitudeChartRange(range) {
+        var min = 0;
+        var max = range.max + 1000;
+        return {min: min, max: max};
+    }
+
     var altitudeSeries = new TimeSeries();
     var groundSeries = new TimeSeries();
-    var altitudeChart = new SmoothieChart({millisPerPixel:100, maxValueScale:1.05, minValue:0});
+    var altitudeChart = new SmoothieChart({millisPerPixel:100, yRangeFunction: altitudeChartRange});
     altitudeChart.addTimeSeries(altitudeSeries,{lineWidth:2,strokeStyle:'#0072ff',fillStyle:'rgba(0,114,255,0.30)'});
-    altitudeChart.addTimeSeries(groundSeries, {lineWidth:2,fillStyle:'#ffffff'});
+    altitudeChart.addTimeSeries(groundSeries, {lineWidth:2,strokeStyle:'#007d00',fillStyle:'rgba(0,125,0,0.30)'});
     altitudeChart.streamTo(document.getElementById("altitudeChart"), 250);
 
 
