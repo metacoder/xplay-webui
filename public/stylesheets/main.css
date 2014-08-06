@@ -2,17 +2,36 @@ html, body {
     height: 100%;
 }
 
+
+/* ================================================================ */
+/* map                                                              */
+/* ================================================================ */
+
 .map-container {
     margin: 0;
     height: 100%;
     position: absolute;
 }
+.inner-map-container {
+    position: relative;
+    height: 100%;
+}
 
 #map {
     display: block;
-    width:100%;
     height:100%;
 }
+
+#followAircraft {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
+
+
+/* ================================================================ */
+/* icons                                                            */
+/* ================================================================ */
 
 .icon-success {
     color: #5cb85c;
