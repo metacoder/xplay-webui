@@ -5,12 +5,28 @@ function MainCtrl($scope){
     /* settings                                                         */
     /* ================================================================ */
 
+    var defaultSettings = {
+        map: {
+            centerMapOnAircraft: true,
+            zoomLevel: 12
+        }
+    };
+
+    function loadDefaultSettings(settings, defaultSettings) {
+        for (var key in defaultSettings) {
+            if (!(key in settings)) {
+                settings[key] = defaultSettings[key];
+            } else if (typeof defaultSettings[key] === 'object') {
+                loadDefaultSettings(settings[key], defaultSettings[key])
+            }
+        }
+    }
+
     if (localStorage.settings) {
         $scope.settings = JSON.parse(localStorage.settings);
+        loadDefaultSettings($scope.settings, defaultSettings);
     } else {
-        $scope.settings = {};
-        // Default Settings
-        $scope.settings.centerMapOnAircraft = true;
+        $scope.settings = defaultSettings;
     }
 
     $scope.$watch('settings', function() {
@@ -33,7 +49,7 @@ function MainCtrl($scope){
 
     var position = new google.maps.LatLng( 0, 0 )
     var myOptions = {
-        zoom : 12,
+        zoom : $scope.settings.map.zoomLevel,
         center : position,
         mapTypeId : google.maps.MapTypeId.ROADMAP
     };
@@ -45,6 +61,12 @@ function MainCtrl($scope){
         map : map,
         title : "plane",
         icon : plane
+    });
+
+    google.maps.event.addListener(map, 'zoom_changed', function() {
+        $scope.$apply(function() {
+            $scope.settings.map.zoomLevel = map.getZoom();
+        });
     });
 
 
@@ -102,7 +124,7 @@ function MainCtrl($scope){
                 position = new google.maps.LatLng(msg.lat, msg.lon)
                 marker.setPosition(position);
 
-                if ($scope.settings.centerMapOnAircraft) {
+                if ($scope.settings.map.centerMapOnAircraft) {
                     map.panTo(position);
                 }
 
