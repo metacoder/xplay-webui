@@ -89,7 +89,6 @@ function MainCtrl($scope, $timeout){
     /* ================================================================ */
 
     function altitudeChartRange(range) {
-        // TODO implement your calculation using range.min and range.max
         var min = 0;
         var max = range.max + 1000;
         return {min: min, max: max};
