@@ -4,24 +4,67 @@ html, body {
 
 
 /* ================================================================ */
+/* sidebar                                                          */
+/* ================================================================ */
+
+#sidebar {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 300px;
+    background-color: #F5F5F5;
+    border-left: 1px solid #CCC;
+    padding: 20px;
+}
+
+.xplay-container.fullscreen #sidebar {
+    width: 25px;
+    padding: 5px;
+}
+.xplay-container.fullscreen #sidebar .hide-fullscreen {
+    display: none;
+}
+
+.xplay-container.fullscreen #sidebar h3{
+    transform: rotate(90deg);
+    transform-origin: right top;
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -ms-transform-origin: right top;
+    -webkit-transform: rotate(90deg); /* Opera, Chrome, and Safari */
+    -webkit-transform-origin: right top;
+    font-size: 15px;
+    position: absolute;
+    bottom: -5px;
+    right: 3px;
+    white-space: nowrap;
+}
+
+#sidebar .button-icon {
+    cursor: pointer;
+}
+
+/* ================================================================ */
 /* map                                                              */
 /* ================================================================ */
 
-.map-container {
+#map-container {
     margin: 0;
+    padding-right: 300px;
     height: 100%;
+    width: 100%;
     position: absolute;
 }
-.inner-map-container {
+.xplay-container.fullscreen #map-container {
+    padding-right: 25px;
+}
+#inner-map-container {
     position: relative;
     height: 100%;
 }
-
 #map {
     display: block;
     height:100%;
 }
-
 #followAircraft {
     position: absolute;
     bottom: 15px;
