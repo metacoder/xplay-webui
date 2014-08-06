@@ -38,8 +38,8 @@
                     <span class="button-icon glyphicon glyphicon-chevron-right pull-right" ng-show="!settings.fullscreen" ng-click="settings.fullscreen = true"></span>
                     <span class="button-icon glyphicon glyphicon-chevron-left" ng-show="settings.fullscreen" ng-click="settings.fullscreen = false"></span>
                     <h3>XPlay WebUI</h3>
-                    <span class="glyphicon" ng-class="udpStatusIcon" title="UDP-Status: {{udpStatus}}"></span> <span class="hide-fullscreen">UDP-Status:</span>  <span id="udpStatus" class="hide-fullscreen">{{udpStatus}}</span><br/>
-                    <span class="glyphicon" ng-class="websocketStatusIcon" title="WebSocket-Status: {{websocketStatus}}"></span> <span class="hide-fullscreen">WebSocket-Status:</span> <span id="websocketStatus" class="hide-fullscreen">{{websocketStatus}}</span>
+                    <span class="glyphicon" ng-class="udpStatusIcon" title="UDP-Status: {{udpStatus}}"></span> <span class="hide-fullscreen">UDP-Status: {{udpStatus}}</span><br/>
+                    <span class="glyphicon" ng-class="websocketStatusIcon" title="WebSocket-Status: {{websocketStatus}}"></span> <span class="hide-fullscreen">WebSocket-Status: {{websocketStatus}}</span>
                     <div ng-show="!settings.fullscreen">
                         <div>
                             <h4>Position</h4>
@@ -55,7 +55,7 @@
                         </div>
                         <div>
                             <h4>Altitude</h4>
-                            <canvas id="altitudeChart" height="200" style="width: 100%"></canvas>
+                            <canvas id="altitudeChart" height="200" width="260"></canvas>
                         </div>
                     </div>
                 </div>
