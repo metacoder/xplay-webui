@@ -1,5 +1,15 @@
 function MainCtrl($scope, $timeout){
 
+    /* ================================================================ */
+    /* init values                                                      */
+    /* ================================================================ */
+
+    $scope.latitude = '-';
+    $scope.longitude = '-';
+    $scope.altitude = '- ft';
+    $scope.overGround = '- ft';
+    $scope.indKias = '-';
+    $scope.trueKtgs = '-';
 
     /* ================================================================ */
     /* settings                                                         */
@@ -90,7 +100,7 @@ function MainCtrl($scope, $timeout){
 
     function altitudeChartRange(range) {
         var min = 0;
-        var max = range.max + 1000;
+        var max = range.max > 5000 ? range.max * 1.2 : range.max + 1000;
         return {min: min, max: max};
     }
 
