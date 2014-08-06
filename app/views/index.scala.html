@@ -38,8 +38,8 @@
                     <span class="button-icon glyphicon glyphicon-chevron-right pull-right" ng-show="!settings.fullscreen" ng-click="settings.fullscreen = true"></span>
                     <span class="button-icon glyphicon glyphicon-chevron-left" ng-show="settings.fullscreen" ng-click="settings.fullscreen = false"></span>
                     <h3>XPlay WebUI</h3>
-                    <span class="hide-fullscreen">UDP-Status:</span> <span class="glyphicon" ng-class="udpStatusIcon" title="UDP-Status: {{udpStatus}}"></span> <span id="udpStatus" class="hide-fullscreen">{{udpStatus}}</span><br/>
-                    <span class="hide-fullscreen">WebSocket-Status:</span> <span class="glyphicon" ng-class="websocketStatusIcon" title="WebSocket-Status: {{websocketStatus}}"></span> <span id="websocketStatus" class="hide-fullscreen">{{websocketStatus}}</span>
+                    <span class="glyphicon" ng-class="udpStatusIcon" title="UDP-Status: {{udpStatus}}"></span> <span class="hide-fullscreen">UDP-Status:</span>  <span id="udpStatus" class="hide-fullscreen">{{udpStatus}}</span><br/>
+                    <span class="glyphicon" ng-class="websocketStatusIcon" title="WebSocket-Status: {{websocketStatus}}"></span> <span class="hide-fullscreen">WebSocket-Status:</span> <span id="websocketStatus" class="hide-fullscreen">{{websocketStatus}}</span>
                     <div ng-show="!settings.fullscreen">
                         <div ng-if="latitude">
                             <h4>Position</h4>
@@ -50,8 +50,8 @@
                         </div>
                         <div ng-if="indKias">
                             <h4>Speed</h4>
-                            Indicated Speed: <span id="indKias">{{indKias}}</span><br/>
-                            True Ground Speed: <span id="trueKtgs">{{trueKtgs}}</span>
+                            <abbr title="Indicated air speed">IAS</abbr>: {{indKias}} kts<br/>
+                            <abbr title="True ground speed ">TGS</abbr>: {{trueKtgs}} kts
                         </div>
                         <div ng-show="altitude">
                             <h4>Altitude</h4>

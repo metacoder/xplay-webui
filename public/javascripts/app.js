@@ -152,8 +152,8 @@ function MainCtrl($scope, $timeout){
                 plane.rotation = msg.trueHeading;
                 marker.setIcon(plane);
             } else if (msg.type == "speed") {
-                $scope.indKias = Math.round(msg.indKias) + ' knots';
-                $scope.trueKtgs = Math.round(msg.trueKtgs) + ' knots';
+                $scope.indKias = Math.round(msg.indKias);
+                $scope.trueKtgs = Math.round(msg.trueKtgs);
             } else if (msg.type == "udpConnectionStatus"){
                 $scope.udpStatus = msg.status;
                 $scope.udpStatusIcon = STATUS[msg.status];
