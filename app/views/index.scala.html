@@ -41,19 +41,19 @@
                     <span class="glyphicon" ng-class="udpStatusIcon" title="UDP-Status: {{udpStatus}}"></span> <span class="hide-fullscreen">UDP-Status: {{udpStatus}}</span><br/>
                     <span class="glyphicon" ng-class="websocketStatusIcon" title="WebSocket-Status: {{websocketStatus}}"></span> <span class="hide-fullscreen">WebSocket-Status: {{websocketStatus}}</span>
                     <div ng-show="!settings.fullscreen">
-                        <div>
+                        <div ng-if="settings.sidebar.position">
                             <h4>Position</h4>
                             Latitude: <span id="latitude">{{latitude}}</span><br/>
                             Longitude: <span id="longitude">{{longitude}}</span><br/>
                             Altitude: <span id="altitude">{{altitude}}</span><br/>
                             Above Ground: <span id="overGround">{{overGround}}</span>
                         </div>
-                        <div>
+                        <div ng-if="settings.sidebar.speed">
                             <h4>Speed</h4>
                             <abbr title="Indicated air speed">IAS</abbr>: {{indKias}} kts<br/>
                             <abbr title="True ground speed ">TGS</abbr>: {{trueKtgs}} kts
                         </div>
-                        <div>
+                        <div ng-show="settings.sidebar.altitudeChart">
                             <h4>Altitude</h4>
                             <canvas id="altitudeChart" height="200" width="260"></canvas>
                         </div>

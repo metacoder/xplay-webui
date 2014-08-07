@@ -21,7 +21,12 @@ function MainCtrl($scope, $timeout, $modal){
         map: {
             zoomLevel: 12
         },
-        fullscreen: false
+        fullscreen: false,
+        sidebar: {
+            position: true,
+            speed: true,
+            altitudeChart: true
+        }
     };
 
     function loadDefaultSettings(settings, defaultSettings) {

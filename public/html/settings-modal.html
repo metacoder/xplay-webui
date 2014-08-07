@@ -4,6 +4,24 @@
     <h3 class="modal-title">Settings</h3>
 </div>
 <div class="modal-body">
+    <form role="form">
+        <h4>Sidebar</h4>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="settings.sidebar.position"> Show Position
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="settings.sidebar.speed"> Show Speed
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="settings.sidebar.altitudeChart"> Show Altitude Chart
+            </label>
+        </div>
+    </form>
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary" ng-click="$dismiss('close')">Close</button>
