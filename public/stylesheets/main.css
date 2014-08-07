@@ -39,8 +39,22 @@ html, body {
     white-space: nowrap;
 }
 
-#sidebar .button-icon {
+#sidebar .hide-button {
+    margin: -5px;
+}
+#sidebar .hide-button, #sidebar:hover .show-button {
+    border: 1px solid #CCC;
+    padding: 5px 5px 5px 5px;
     cursor: pointer;
+}
+#sidebar .show-button {
+    margin: 16px 0 16px;
+    cursor: pointer;
+}
+#sidebar:hover .show-button {
+    margin: 10px 10px 10px 0;
+    background-color: #F5F5F5;
+    float: right;
 }
 
 /* ================================================================ */

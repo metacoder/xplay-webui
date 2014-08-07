@@ -35,8 +35,8 @@
                 </div>
                 <!-- sidebar -->
                 <div id="sidebar">
-                    <span class="button-icon glyphicon glyphicon-chevron-right pull-right" ng-show="!settings.fullscreen" ng-click="settings.fullscreen = true"></span>
-                    <span class="button-icon glyphicon glyphicon-chevron-left" ng-show="settings.fullscreen" ng-click="settings.fullscreen = false"></span>
+                    <span class="hide-button glyphicon glyphicon-chevron-right pull-right" ng-show="!settings.fullscreen" ng-click="settings.fullscreen = true"></span>
+                    <span class="show-button glyphicon glyphicon-chevron-left" ng-show="settings.fullscreen" ng-click="settings.fullscreen = false"></span>
                     <h3>XPlay WebUI</h3>
                     <span class="glyphicon" ng-class="udpStatusIcon" title="UDP-Status: {{udpStatus}}"></span> <span class="hide-fullscreen">UDP-Status: {{udpStatus}}</span><br/>
                     <span class="glyphicon" ng-class="websocketStatusIcon" title="WebSocket-Status: {{websocketStatus}}"></span> <span class="hide-fullscreen">WebSocket-Status: {{websocketStatus}}</span>
