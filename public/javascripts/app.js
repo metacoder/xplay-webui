@@ -1,4 +1,6 @@
-function MainCtrl($scope, $timeout){
+var xplayApp = angular.module('xplay', ['ui.bootstrap']);
+
+function MainCtrl($scope, $timeout, $modal){
 
     /* ================================================================ */
     /* init values                                                      */
@@ -42,6 +44,13 @@ function MainCtrl($scope, $timeout){
     $scope.$watch('settings', function() {
         localStorage.settings = JSON.stringify($scope.settings);
     }, true);
+
+    $scope.openSettings = function() {
+        $modal.open({
+            templateUrl: '/assets/html/settings-modal.html',
+            scope: $scope
+        });
+    };
 
 
     /* ================================================================ */

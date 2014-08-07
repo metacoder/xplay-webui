@@ -39,10 +39,13 @@ html, body {
     white-space: nowrap;
 }
 
+#sidebar .settings-button {
+    margin: -5px 10px;
+}
 #sidebar .hide-button {
     margin: -5px;
 }
-#sidebar .hide-button, #sidebar:hover .show-button {
+#sidebar .hide-button, #sidebar:hover .show-button, #sidebar .settings-button {
     border: 1px solid #CCC;
     padding: 5px 5px 5px 5px;
     cursor: pointer;

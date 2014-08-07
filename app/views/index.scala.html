@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html ng-app="xplay">
     <head>
         <title>XPlay WebUI</title>
         <link rel="stylesheet" media="screen" href="@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.css"))">
@@ -9,9 +9,8 @@
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
 
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-        <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))"></script>
-        <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.js"))"></script>
         <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("angular.min.js"))"></script>
+        <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("ui-bootstrap-tpls.min.js"))"></script>
         <script type="text/javascript" src="@routes.Assets.at("javascripts/reconnecting-websocket.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("javascripts/smoothie.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("javascripts/app.js")"></script>
@@ -36,6 +35,7 @@
                 <!-- sidebar -->
                 <div id="sidebar">
                     <span class="hide-button glyphicon glyphicon-chevron-right pull-right" ng-show="!settings.fullscreen" ng-click="settings.fullscreen = true"></span>
+                    <span class="settings-button glyphicon glyphicon-cog pull-right" ng-show="!settings.fullscreen" ng-click="openSettings()"></span>
                     <span class="show-button glyphicon glyphicon-chevron-left" ng-show="settings.fullscreen" ng-click="settings.fullscreen = false"></span>
                     <h3>XPlay WebUI</h3>
                     <span class="glyphicon" ng-class="udpStatusIcon" title="UDP-Status: {{udpStatus}}"></span> <span class="hide-fullscreen">UDP-Status: {{udpStatus}}</span><br/>
