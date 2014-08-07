@@ -2,7 +2,7 @@ import play.PlayScala
 
 name := """xplay-webui"""
 
-version := "1.1"
+version := "1.2-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
