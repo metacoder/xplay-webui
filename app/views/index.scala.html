@@ -38,8 +38,8 @@
                     <span class="settings-button glyphicon glyphicon-cog pull-right" ng-show="!settings.fullscreen" ng-click="openSettings()"></span>
                     <span class="show-button glyphicon glyphicon-chevron-left" ng-show="settings.fullscreen" ng-click="settings.fullscreen = false"></span>
                     <h3>XPlay WebUI</h3>
-                    <span class="glyphicon" ng-class="udpStatusIcon" title="UDP-Status: {{udpStatus}}"></span> <span class="hide-fullscreen">UDP-Status: {{udpStatus}}</span><br/>
-                    <span class="glyphicon" ng-class="websocketStatusIcon" title="WebSocket-Status: {{websocketStatus}}"></span> <span class="hide-fullscreen">WebSocket-Status: {{websocketStatus}}</span>
+                    <span class="glyphicon" ng-class="udpStatusIcon" tooltip="UDP-Status: {{udpStatus}}" tooltip-placement="left" tooltip-append-to-body="true"></span> <span class="hide-fullscreen">UDP-Status: {{udpStatus}}</span><br/>
+                    <span class="glyphicon" ng-class="websocketStatusIcon" tooltip="WebSocket-Status: {{websocketStatus}}" tooltip-placement="left" tooltip-append-to-body="true"></span> <span class="hide-fullscreen">WebSocket-Status: {{websocketStatus}}</span>
                     <div ng-show="!settings.fullscreen">
                         <div ng-if="settings.sidebar.position">
                             <h4>Position</h4>
@@ -50,8 +50,8 @@
                         </div>
                         <div ng-if="settings.sidebar.speed">
                             <h4>Speed</h4>
-                            <abbr title="Indicated air speed">IAS</abbr>: {{indKias}} kts<br/>
-                            <abbr title="True ground speed ">TGS</abbr>: {{trueKtgs}} kts
+                            <abbr tooltip="Indicated air speed">IAS</abbr>: {{indKias}} kts<br/>
+                            <abbr tooltip="True ground speed ">TGS</abbr>: {{trueKtgs}} kts
                         </div>
                         <div ng-show="settings.sidebar.altitudeChart">
                             <h4>Altitude</h4>
