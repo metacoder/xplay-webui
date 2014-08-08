@@ -9,7 +9,7 @@ var artificialHorizon = (function() {
 
     var diagonal = 0, halfDiagonal = 0, radius = 0;
 
-    var pitch = 0, roll = 0;
+    var pitch = 0, roll = 0, roundedPitch = 0;
 
     var horizon = 0;
 
@@ -42,39 +42,27 @@ var artificialHorizon = (function() {
         context.closePath();
         context.stroke();
 
-        var roundedPitch = Math.round(pitch / 10) * 10
-
-        drawPitchAngle(roundedPitch + 20, 4);
-        drawPitchAngle(roundedPitch + 17.5, 1);
-        drawPitchAngle(roundedPitch + 15, 2);
-        drawPitchAngle(roundedPitch + 12.5, 1);
-        drawPitchAngle(roundedPitch + 10, 4);
-        drawPitchAngle(roundedPitch + 7.5, 1);
-        drawPitchAngle(roundedPitch + 5, 2);
-        drawPitchAngle(roundedPitch + 2.5, 1);
-        drawPitchAngle(roundedPitch + 0, 4);
-        drawPitchAngle(roundedPitch + -2.5, 1);
-        drawPitchAngle(roundedPitch + -5, 2);
-        drawPitchAngle(roundedPitch + -7.5, 1);
-        drawPitchAngle(roundedPitch + -10, 4);
-        drawPitchAngle(roundedPitch + -12.5, 1);
-        drawPitchAngle(roundedPitch + -15, 2);
-        drawPitchAngle(roundedPitch + -17.5, 1);
-        drawPitchAngle(roundedPitch + -20, 4);
-        drawPitchAngle(roundedPitch + -22.5, 1);
-        drawPitchAngle(roundedPitch + -25, 2);
-        drawPitchAngle(roundedPitch + -27.5, 1);
-        drawPitchAngle(roundedPitch + -30, 4);
+        drawPitchAngleGroup(20, 4);
+        drawPitchAngleGroup(10, 4);
+        drawPitchAngleGroup(0, 4);
+        drawPitchAngleGroup(-10, 4);
+        drawPitchAngleGroup(-20, 4);
 
         context.restore();
 
         drawForeground();
     }
 
+    function drawPitchAngleGroup(angle) {
+        drawPitchAngle(angle, 4);
+        drawPitchAngle(angle - 2.5, 1);
+        drawPitchAngle(angle - 5, 2);
+        drawPitchAngle(angle - 7.5, 1);
+    }
     function drawPitchAngle(angle, length) {
         context.beginPath();
-        context.moveTo(-canvas.width/20 * length, -angle * canvas.height/50 + horizon);
-        context.lineTo(canvas.width/20 * length, -angle * canvas.height/50 + horizon);
+        context.moveTo(-canvas.width/20 * length, -(roundedPitch + angle) * canvas.height/50 + horizon);
+        context.lineTo(canvas.width/20 * length, -(roundedPitch + angle) * canvas.height/50 + horizon);
         context.stroke();
     }
 
@@ -85,17 +73,12 @@ var artificialHorizon = (function() {
         context.strokeStyle = LINE_COLOR;
         context.lineWidth = 2;
 
-        drawRollAngle(-60);
-        drawRollAngle(-45, true);
-        drawRollAngle(-30);
-        drawRollAngle(-20, true);
-        drawRollAngle(-10, true);
         drawRollAngle(0);
-        drawRollAngle(10, true);
-        drawRollAngle(20, true);
-        drawRollAngle(30);
-        drawRollAngle(45, true);
-        drawRollAngle(60);
+        drawRollAnglePair(10, true);
+        drawRollAnglePair(20, true);
+        drawRollAnglePair(30);
+        drawRollAnglePair(45, true);
+        drawRollAnglePair(60);
 
         // draw plane
         context.fillStyle = PLANE_COLOR;
@@ -121,6 +104,10 @@ var artificialHorizon = (function() {
         context.restore();
     }
 
+    function drawRollAnglePair(angle, short) {
+        drawRollAngle(angle, short);
+        drawRollAngle(-angle, short);
+    }
     function drawRollAngle(angle, short) {
         var end = short ? radius * 0.95 : radius;
         context.beginPath();
@@ -151,6 +138,7 @@ var artificialHorizon = (function() {
             if (context) {
                 roll = pRoll;
                 pitch = pPitch;
+                roundedPitch = Math.round(pitch / 10) * 10;
                 horizon = pitch * canvas.height/50;
 
                 repaint();
