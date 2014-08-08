@@ -25,7 +25,8 @@ function MainCtrl($scope, $timeout, $modal){
         sidebar: {
             position: true,
             speed: true,
-            altitudeChart: true
+            altitudeChart: true,
+            artificialHorizon: true
         }
     };
 
@@ -133,6 +134,17 @@ function MainCtrl($scope, $timeout, $modal){
 
 
     /* ================================================================ */
+    /* artificial horizon                                               */
+    /* ================================================================ */
+
+    $scope.$watch('settings.sidebar.artificialHorizon', function() {
+        if ($scope.settings.sidebar.artificialHorizon && !artificialHorizon.running()) {
+            artificialHorizon.start('artificialHorizon');
+        }
+    });
+
+
+    /* ================================================================ */
     /* websocket code                                                   */
     /* ================================================================ */
 
@@ -191,6 +203,10 @@ function MainCtrl($scope, $timeout, $modal){
             } else if (msg.type == "pitchRollHeading") {
                 plane.rotation = msg.trueHeading;
                 marker.setIcon(plane);
+
+                if ($scope.settings.sidebar.artificialHorizon) {
+                    artificialHorizon.draw(msg.roll, msg.pitch);
+                }
             } else if (msg.type == "speed") {
                 $scope.indKias = Math.round(msg.indKias);
                 $scope.trueKtgs = Math.round(msg.trueKtgs);
