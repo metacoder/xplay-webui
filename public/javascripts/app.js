@@ -104,7 +104,7 @@ function MainCtrl($scope, $timeout, $modal){
     });
 
     $scope.$watch('settings.fullscreen', function() {
-        $timeout(function () { google.maps.event.trigger(map, 'resize'); }, 0);
+        $timeout(function () { google.maps.event.trigger(map, 'resize'); });
     });
 
 
@@ -120,10 +120,16 @@ function MainCtrl($scope, $timeout, $modal){
 
     var altitudeSeries = new TimeSeries();
     var groundSeries = new TimeSeries();
-    var altitudeChart = new SmoothieChart({millisPerPixel:100, yRangeFunction: altitudeChartRange});
-    altitudeChart.addTimeSeries(altitudeSeries,{lineWidth:2,strokeStyle:'#0072ff',fillStyle:'rgba(0,114,255,0.30)'});
-    altitudeChart.addTimeSeries(groundSeries, {lineWidth:2,strokeStyle:'#007d00',fillStyle:'rgba(0,125,0,0.30)'});
-    altitudeChart.streamTo(document.getElementById("altitudeChart"), 250);
+    var altitudeChart;
+
+    $scope.$watch('settings.sidebar.altitudeChart', function() {
+        if ($scope.settings.sidebar.altitudeChart && !altitudeChart) {
+            altitudeChart = new SmoothieChart({millisPerPixel: 100, yRangeFunction: altitudeChartRange});
+            altitudeChart.addTimeSeries(altitudeSeries, {lineWidth: 2, strokeStyle: '#0072ff', fillStyle: 'rgba(0,114,255,0.30)'});
+            altitudeChart.addTimeSeries(groundSeries, {lineWidth: 2, strokeStyle: '#007d00', fillStyle: 'rgba(0,125,0,0.30)'});
+            altitudeChart.streamTo(document.getElementById("altitudeChart"), 250);
+        }
+    });
 
 
     /* ================================================================ */
@@ -176,8 +182,12 @@ function MainCtrl($scope, $timeout, $modal){
                 $scope.longitude = msg.lon.toFixed(3);
                 $scope.altitude = Math.round(msg.ftmsl) + ' ft';
                 $scope.overGround = Math.round(msg.ftagl) + ' ft';
-                altitudeSeries.append(new Date().getTime(), msg.ftmsl);
-                groundSeries.append(new Date().getTime(), (msg.ftmsl - msg.ftagl));
+
+                if ($scope.settings.sidebar.altitudeChart && !$scope.settings.fullscreen) {
+                    var now = new Date().getTime();
+                    altitudeSeries.append(now, msg.ftmsl);
+                    groundSeries.append(now, (msg.ftmsl - msg.ftagl));
+                }
             } else if (msg.type == "pitchRollHeading") {
                 plane.rotation = msg.trueHeading;
                 marker.setIcon(plane);
