@@ -40,9 +40,38 @@ var artificialHorizon = (function() {
         context.closePath();
         context.stroke();
 
+        drawPitchLine(20, 4);
+        drawPitchLine(17.5, 1);
+        drawPitchLine(15, 2);
+        drawPitchLine(12.5, 1);
+        drawPitchLine(10, 4);
+        drawPitchLine(7.5, 1);
+        drawPitchLine(5, 2);
+        drawPitchLine(2.5, 1);
+        drawPitchLine(0, 4);
+        drawPitchLine(-2.5, 1);
+        drawPitchLine(-5, 2);
+        drawPitchLine(-7.5, 1);
+        drawPitchLine(-10, 4);
+        drawPitchLine(-12.5, 1);
+        drawPitchLine(-15, 2);
+        drawPitchLine(-17.5, 1);
+        drawPitchLine(-20, 4);
+        drawPitchLine(-22.5, 1);
+        drawPitchLine(-25, 2);
+        drawPitchLine(-27.5, 1);
+        drawPitchLine(-30, 4);
+
         context.restore();
 
         drawForeground();
+    }
+
+    function drawPitchLine(angle, length) {
+        context.beginPath();
+        context.moveTo(-canvas.width/20 * length, -angle * canvas.height/50);
+        context.lineTo(canvas.width/20 * length, -angle * canvas.height/50);
+        context.stroke();
     }
 
     function drawForeground() {
