@@ -3,7 +3,7 @@
  */
 
 var artificialHorizon = (function() {
-    var GROUND_COLOR = "#79582e", LINE_COLOR = "#ffffff", SKY_COLOR = "#205b77";
+    var GROUND_COLOR = "#79582e", LINE_COLOR = "#ffffff", SKY_COLOR = "#205b77", TOP_COLOR = "#000000";
 
     var canvas, context;
 
@@ -15,7 +15,7 @@ var artificialHorizon = (function() {
         context.save();
 
         context.translate(canvas.width/2, canvas.height/2);
-        context.rotate(-roll);
+        context.rotate(-radians(roll));
 
         context.fillStyle = GROUND_COLOR;
         context.strokeStyle = LINE_COLOR;
@@ -31,6 +31,32 @@ var artificialHorizon = (function() {
         context.moveTo(halfDiagonal, 0);
         context.lineTo(-halfDiagonal, 0);
         context.stroke();
+
+        context.restore();
+
+        // draw plane
+        context.save();
+        context.translate(canvas.width/2, canvas.height/2);
+
+        context.fillStyle = TOP_COLOR;
+        context.strokeStyle = TOP_COLOR;
+        context.lineWidth = 4;
+
+        context.beginPath();
+        context.moveTo(canvas.width/4, 0);
+        context.lineTo(canvas.width/16, 0);
+        context.lineTo(canvas.width/16, canvas.width/20);
+        context.stroke();
+
+        context.beginPath();
+        context.moveTo(-canvas.width/4, 0);
+        context.lineTo(-canvas.width/16, 0);
+        context.lineTo(-canvas.width/16, canvas.width/20);
+        context.stroke();
+
+        context.beginPath();
+        context.arc(0, 0, canvas.width/100, 0, 2* Math.PI);
+        context.fill();
 
         context.restore();
     }
@@ -51,10 +77,10 @@ var artificialHorizon = (function() {
             repaint();
         },
 
-        draw: function(degRoll, degPitch) {
+        draw: function(pRoll, pPitch) {
             if (context) {
-                roll = radians(degRoll);
-                pitch = radians(degPitch);
+                roll = pRoll;
+                pitch = pPitch;
 
                 repaint();
             }
