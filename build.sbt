@@ -25,4 +25,6 @@ libraryDependencies += "org.webjars" % "chartjs" % "26962ce"
 
 libraryDependencies += "org.webjars" % "angularjs" % "1.2.21"
 
+libraryDependencies += "org.webjars" % "angular-ui-bootstrap" % "0.11.0-2"
+
 
