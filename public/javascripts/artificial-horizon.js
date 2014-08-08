@@ -3,11 +3,11 @@
  */
 
 var artificialHorizon = (function() {
-    var GROUND_COLOR = "#79582e", LINE_COLOR = "#ffffff", SKY_COLOR = "#205b77", TOP_COLOR = "#000000";
+    var GROUND_COLOR = "#79582e", LINE_COLOR = "#ffffff", SKY_COLOR = "#205b77", PLANE_COLOR = "#000000";
 
     var canvas, context;
 
-    var diagonal = 0, halfDiagonal = 0;
+    var diagonal = 0, halfDiagonal = 0, radius = 0;
 
     var pitch = 0, roll = 0;
 
@@ -32,14 +32,41 @@ var artificialHorizon = (function() {
         context.lineTo(-halfDiagonal, 0);
         context.stroke();
 
+        // top arrow
+        context.beginPath();
+        context.moveTo(0, -radius * 0.9);
+        context.lineTo(radius * 0.05, -radius * 0.85);
+        context.lineTo(-radius * 0.05, -radius * 0.85);
+        context.closePath();
+        context.stroke();
+
         context.restore();
 
-        // draw plane
+        drawForeground();
+    }
+
+    function drawForeground() {
         context.save();
         context.translate(canvas.width/2, canvas.height/2);
 
-        context.fillStyle = TOP_COLOR;
-        context.strokeStyle = TOP_COLOR;
+        context.strokeStyle = LINE_COLOR;
+        context.lineWidth = 2;
+
+        drawAngle(-60);
+        drawAngle(-45, true);
+        drawAngle(-30);
+        drawAngle(-20, true);
+        drawAngle(-10, true);
+        drawAngle(0);
+        drawAngle(10, true);
+        drawAngle(20, true);
+        drawAngle(30);
+        drawAngle(45, true);
+        drawAngle(60);
+
+        // draw plane
+        context.fillStyle = PLANE_COLOR;
+        context.strokeStyle = PLANE_COLOR;
         context.lineWidth = 4;
 
         context.beginPath();
@@ -61,6 +88,15 @@ var artificialHorizon = (function() {
         context.restore();
     }
 
+    function drawAngle(angle, short) {
+        var end = short ? radius * 0.95 : radius;
+        context.beginPath();
+        context.moveTo(radius * 0.9 * Math.sin(radians(angle)), -radius * 0.9 * Math.cos(radians(angle)));
+        context.lineTo(end * Math.sin(radians(angle)), -end * Math.cos(radians(angle)));
+        context.closePath();
+        context.stroke();
+    }
+
     function radians(degrees) {
         return degrees * Math.PI / 180;
     };
@@ -71,6 +107,7 @@ var artificialHorizon = (function() {
 
             diagonal = Math.sqrt(Math.pow(canvas.width, 2) + Math.pow(canvas.height, 2));
             halfDiagonal = diagonal/2;
+            radius = Math.min(canvas.width, canvas.height) / 2;
 
             context = canvas.getContext("2d");
 
