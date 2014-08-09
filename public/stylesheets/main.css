@@ -30,6 +30,9 @@ abbr[tooltip] {
     display: none;
 }
 
+#sidebar h3 {
+    margin-top: 30px;
+}
 .xplay-container.fullscreen #sidebar h3{
     transform: rotate(90deg);
     transform-origin: right top;
@@ -43,24 +46,27 @@ abbr[tooltip] {
     right: 3px;
     white-space: nowrap;
 }
+#sidebar h3 .version {
+    font-size: 15px;
+    color: #999;
+}
 
+#sidebar .sidebar-buttons {
+    margin: -5px -5px 5px 0;
+}
+#sidebar .hide-button,
+#sidebar:hover .show-button,
 #sidebar .settings-button {
-    margin: -5px 10px;
-}
-#sidebar .hide-button {
-    margin: -5px;
-}
-#sidebar .hide-button, #sidebar:hover .show-button, #sidebar .settings-button {
     border: 1px solid #CCC;
     padding: 5px 5px 5px 5px;
     cursor: pointer;
 }
 #sidebar .show-button {
-    margin: 16px 0 16px;
+    margin: 21px 5px 16px;
     cursor: pointer;
 }
 #sidebar:hover .show-button {
-    margin: 10px 10px 10px 0;
+    margin: 15px 15px 10px 0;
     background-color: #F5F5F5;
     float: right;
 }

@@ -1,8 +1,11 @@
+import com.typesafe.config.ConfigFactory
 import play.PlayScala
+
+val conf = ConfigFactory.parseFile(new File("conf/application.conf")).resolve()
 
 name := """xplay-webui"""
 
-version := "1.2-SNAPSHOT"
+version := conf.getString("application.version")
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
