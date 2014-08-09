@@ -43,6 +43,10 @@ abbr[tooltip] {
     right: 3px;
     white-space: nowrap;
 }
+#sidebar h3 .version {
+    font-size: 15px;
+    color: #999;
+}
 
 #sidebar .settings-button {
     margin: -5px 10px;
