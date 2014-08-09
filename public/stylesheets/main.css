@@ -15,7 +15,7 @@ abbr[tooltip] {
 #sidebar {
     position: absolute;
     right: 0;
-    height: 100%;
+    min-height: 100%;
     width: 300px;
     background-color: #F5F5F5;
     border-left: 1px solid #CCC;
@@ -74,7 +74,7 @@ abbr[tooltip] {
     padding-right: 300px;
     height: 100%;
     width: 100%;
-    position: absolute;
+    position: fixed;
 }
 .xplay-container.fullscreen #map-container {
     padding-right: 25px;
