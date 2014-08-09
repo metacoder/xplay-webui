@@ -8,6 +8,7 @@ val publicLib = """public/lib/(.)*""".r
 mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
   {
     case "play/core/server/ServerWithStop.class" => MergeStrategy.first
+    case "logger.xml" => MergeStrategy.first
     case publicLib(_) => MergeStrategy.discard
     case x => old(x)
   }
