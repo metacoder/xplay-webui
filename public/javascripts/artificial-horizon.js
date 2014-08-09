@@ -42,6 +42,7 @@ var artificialHorizon = (function() {
         context.closePath();
         context.stroke();
 
+        context.font="12px Verdana";
         drawPitchAngleGroup(20, 4);
         drawPitchAngleGroup(10, 4);
         drawPitchAngleGroup(0, 4);
@@ -60,10 +61,22 @@ var artificialHorizon = (function() {
         drawPitchAngle(angle - 7.5, 1);
     }
     function drawPitchAngle(angle, length) {
+        var currentAngle = roundedPitch + angle;
+        var y = -currentAngle * canvas.height / 50 + horizon;
         context.beginPath();
-        context.moveTo(-canvas.width/20 * length, -(roundedPitch + angle) * canvas.height/50 + horizon);
-        context.lineTo(canvas.width/20 * length, -(roundedPitch + angle) * canvas.height/50 + horizon);
+        context.moveTo(-canvas.width/20 * length, y);
+        context.lineTo(canvas.width/20 * length, y);
         context.stroke();
+
+        if (length == 4 && currentAngle != 0) {
+            var absAngle = Math.abs(currentAngle);
+            context.lineWidth = 1;
+            context.textAlign = "end";
+            context.strokeText(absAngle, -canvas.width/18 * length, y + 4);
+            context.textAlign = "start";
+            context.strokeText(absAngle, canvas.width/18 * length, y + 4);
+            context.lineWidth = 2;
+        }
     }
 
     function drawForeground() {
