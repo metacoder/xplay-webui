@@ -13,6 +13,7 @@
         <script type="text/javascript" src="@routes.WebJarAssets.at(WebJarAssets.locate("ui-bootstrap-tpls.min.js"))"></script>
         <script type="text/javascript" src="@routes.Assets.at("javascripts/reconnecting-websocket.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("javascripts/smoothie.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/artificial-horizon.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("javascripts/app.js")"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -56,6 +57,10 @@
                         <div ng-show="settings.sidebar.altitudeChart">
                             <h4>Altitude</h4>
                             <canvas id="altitudeChart" height="200" width="260"></canvas>
+                        </div>
+                        <div ng-show="settings.sidebar.artificialHorizon">
+                            <h4>Artificial Horizon</h4>
+                            <canvas id="artificialHorizon" height="260" width="260"></canvas>
                         </div>
                     </div>
                 </div>
