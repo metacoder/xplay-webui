@@ -1,3 +1,3 @@
 package model
 
-case class Speed(indKias: Float, trueKtgs: Float)
+case class Speed(indKias: BigDecimal, trueKtgs: BigDecimal)

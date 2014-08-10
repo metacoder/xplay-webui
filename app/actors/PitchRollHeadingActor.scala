@@ -1,14 +1,15 @@
 package actors
 
 import akka.actor.Actor
-import model.{MessageFloats, PitchRollHeading}
+import model.{MessageBigDecimals, PitchRollHeading}
+import utils.BigDecimalRounding
 
-class PitchRollHeadingActor extends Actor {
+class PitchRollHeadingActor extends Actor with BigDecimalRounding with SaveLastMessage[PitchRollHeading] {
 
-  override def receive: Receive = {
-    case MessageFloats(floats) => {
-      val pitchRollHeading = PitchRollHeading(floats(0), floats(1), floats(2), floats(3))
-      ActorRegistry.websocketRegistry ! SendMessageToWebSockets(pitchRollHeading)
-    }
+  receiver {
+    case MessageBigDecimals(bds) =>
+      sendIfChanged(PitchRollHeading(r(bds(0), 2), r(bds(1)), r(bds(2)), r(bds(3))))
   }
 }
+
+

@@ -1,3 +1,3 @@
 package model
 
-case class GPSPosition(lat: Float, lon: Float, ftmsl: Float, ftagl: Float)
+case class GPSPosition(lat: BigDecimal, lon: BigDecimal, ftmsl: BigDecimal, ftagl: BigDecimal)

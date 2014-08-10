@@ -49,15 +49,15 @@
                     <div ng-show="!settings.fullscreen">
                         <div ng-if="settings.sidebar.position">
                             <h4>Position</h4>
-                            Latitude: <span id="latitude">{{latitude}}</span><br/>
-                            Longitude: <span id="longitude">{{longitude}}</span><br/>
-                            Altitude: <span id="altitude">{{altitude}}</span><br/>
-                            Above Ground: <span id="overGround">{{overGround}}</span>
+                            Latitude: <span id="latitude">{{data.position.latitude}}</span><br/>
+                            Longitude: <span id="longitude">{{data.position.longitude}}</span><br/>
+                            Altitude: <span id="altitude">{{data.position.altitude}} ft</span><br/>
+                            Above Ground: <span id="overGround">{{data.position.overGround}} ft</span>
                         </div>
                         <div ng-if="settings.sidebar.speed">
                             <h4>Speed</h4>
-                            <abbr tooltip="Indicated air speed">IAS</abbr>: {{indKias}} kts<br/>
-                            <abbr tooltip="True ground speed ">TGS</abbr>: {{trueKtgs}} kts
+                            <abbr tooltip="Indicated air speed">IAS</abbr>: {{data.speed.indKias}} kts<br/>
+                            <abbr tooltip="True ground speed ">TGS</abbr>: {{data.speed.trueKtgs}} kts
                         </div>
                         <div ng-show="settings.sidebar.altitudeChart">
                             <h4>Altitude</h4>

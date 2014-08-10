@@ -6,12 +6,10 @@ function MainCtrl($scope, $timeout, $modal){
     /* init values                                                      */
     /* ================================================================ */
 
-    $scope.latitude = '-';
-    $scope.longitude = '-';
-    $scope.altitude = '- ft';
-    $scope.overGround = '- ft';
-    $scope.indKias = '-';
-    $scope.trueKtgs = '-';
+    $scope.data = {
+        position: {latitude: '-', longitude: '-', altitude: '-', overGround: '-'},
+        speed: {indKias: '-', trueKtgs: '-'}
+    }
 
     /* ================================================================ */
     /* settings                                                         */
@@ -149,70 +147,72 @@ function MainCtrl($scope, $timeout, $modal){
     /* ================================================================ */
 
     var ws = new ReconnectingWebSocket( 'ws://' + document.location.host + '/websocket' ) ;
-    ws.onopen = function ( ) {
+    ws.onopen = function() {
         console.log( 'ws connected' );
         $scope.$apply(function() {
             $scope.websocketStatus = 'connected';
             $scope.websocketStatusIcon = STATUS.receiving;
         });
     };
-    ws.onconnecting = function ( ) {
+    ws.onconnecting = function() {
         console.log( 'ws connecting' );
         $scope.$apply(function() {
             $scope.websocketStatus = 'connecting';
             $scope.websocketStatusIcon = STATUS.error;
         });
     };
-    ws.onerror = function ( ) {
+    ws.onerror = function() {
         console.log( 'ws error' );
         $scope.$apply(function() {
             $scope.websocketStatus = 'error';
             $scope.websocketStatusIcon = STATUS.error;
         });
     };
-    ws.onclose = function ( ) {
+    ws.onclose = function() {
         console.log( 'ws closed' );
         $scope.$apply(function() {
             $scope.websocketStatus = 'disconnected';
             $scope.websocketStatusIcon = STATUS.error;
         });
     };
-    ws.onmessage = function ( msgevent ) {
+    ws.onmessage = function(msgevent) {
 
         $scope.$apply(function() {
 
             var msg = JSON.parse(msgevent.data);
-            if (msg.type == "position") {
-                position = new google.maps.LatLng(msg.lat, msg.lon)
+            if (msg[0] == "p") {
+                var pos = {latitude: msg[1], longitude: msg[2], altitude: msg[3], overGround: msg[4]};
+                position = new google.maps.LatLng(pos.latitude, pos.longitude);
                 marker.setPosition(position);
 
                 if ($scope.followAircraft) {
                     map.panTo(position);
                 }
 
-                $scope.latitude = msg.lat.toFixed(3);
-                $scope.longitude = msg.lon.toFixed(3);
-                $scope.altitude = Math.round(msg.ftmsl) + ' ft';
-                $scope.overGround = Math.round(msg.ftagl) + ' ft';
+                pos.latitude = pos.latitude.toFixed(3);
+                pos.longitude = pos.longitude.toFixed(3);
+                $scope.data.position = pos;
 
                 if ($scope.settings.sidebar.altitudeChart && !$scope.settings.fullscreen) {
                     var now = new Date().getTime();
-                    altitudeSeries.append(now, msg.ftmsl);
-                    groundSeries.append(now, (msg.ftmsl - msg.ftagl));
+                    altitudeSeries.append(now, pos.altitude);
+                    groundSeries.append(now, (pos.altitude - pos.overGround));
                 }
-            } else if (msg.type == "pitchRollHeading") {
-                plane.rotation = msg.trueHeading;
+            } else if (msg[0] == "prh") {
+                var prh = {pitch: msg[1], roll: msg[2], trueHeading: msg[3]}
+                plane.rotation = prh.trueHeading;
                 marker.setIcon(plane);
 
                 if ($scope.settings.sidebar.artificialHorizon) {
-                    artificialHorizon.draw(msg.roll, msg.pitch);
+                    artificialHorizon.draw(prh.roll, prh.pitch);
                 }
-            } else if (msg.type == "speed") {
-                $scope.indKias = Math.round(msg.indKias);
-                $scope.trueKtgs = Math.round(msg.trueKtgs);
-            } else if (msg.type == "udpConnectionStatus"){
-                $scope.udpStatus = msg.status;
-                $scope.udpStatusIcon = STATUS[msg.status];
+
+                $scope.data.pitchRollHeading = prh;
+            } else if (msg[0] == "s") {
+                $scope.data.speed = {indKias: msg[1], trueKtgs: msg[2]}
+            } else if (msg[0] == "u"){
+                $scope.udpStatus = msg[1];
+                $scope.udpStatusIcon = STATUS[$scope.udpStatus];
             } else {
                 console.log('in :', msg);
             }

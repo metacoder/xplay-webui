@@ -6,3 +6,4 @@ import akka.actor.ActorRef
 case class RegisterWebSocket(socket: ActorRef)
 case class DeregisterWebSocket(socket: ActorRef)
 case class SendMessageToWebSockets(message: Any)
+case class SendLastMessageToWebSockets(webSocketActor: ActorRef)

@@ -1,14 +1,13 @@
 package actors
 
 import akka.actor.Actor
-import model.{Speed, MessageFloats}
+import model.{Speed, MessageBigDecimals}
+import utils.BigDecimalRounding
 
-class SpeedActor extends Actor {
+class SpeedActor extends Actor with BigDecimalRounding with SaveLastMessage[Speed] {
 
-  override def receive: Receive = {
-    case MessageFloats(floats) => {
-      val speed = Speed(floats(0), floats(3))
-      ActorRegistry.websocketRegistry ! SendMessageToWebSockets(speed)
-    }
+  receiver {
+    case MessageBigDecimals(bigDecimals) =>
+      sendIfChanged(Speed(r(bigDecimals(0), 0), r(bigDecimals(3), 0)))
   }
 }
