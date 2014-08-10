@@ -1,13 +1,13 @@
 package actors
 
 import akka.actor.Actor
-import model.{Speed, MessageFloats}
+import model.{Speed, MessageBigDecimals}
 
 class SpeedActor extends Actor {
 
   override def receive: Receive = {
-    case MessageFloats(floats) => {
-      val speed = Speed(floats(0), floats(3))
+    case MessageBigDecimals(bigDecimals) => {
+      val speed = Speed(bigDecimals(0), bigDecimals(3))
       ActorRegistry.websocketRegistry ! SendMessageToWebSockets(speed)
     }
   }

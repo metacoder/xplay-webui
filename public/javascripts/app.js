@@ -181,10 +181,12 @@ function MainCtrl($scope, $timeout, $modal){
 
         $scope.$apply(function() {
 
+
             var msg = JSON.parse(msgevent.data);
             if (msg.type == "position") {
                 position = new google.maps.LatLng(msg.lat, msg.lon)
                 marker.setPosition(position);
+                console.log(msg);
 
                 if ($scope.followAircraft) {
                     map.panTo(position);
@@ -203,7 +205,6 @@ function MainCtrl($scope, $timeout, $modal){
             } else if (msg.type == "pitchRollHeading") {
                 plane.rotation = msg.trueHeading;
                 marker.setIcon(plane);
-
                 if ($scope.settings.sidebar.artificialHorizon) {
                     artificialHorizon.draw(msg.roll, msg.pitch);
                 }
