@@ -2,23 +2,12 @@ package actors
 
 import akka.actor.Actor
 import model.{Speed, MessageBigDecimals}
-import play.api.Logger
-import utils.BigDecimalRounding
+import utils.{SendIfChanged, BigDecimalRounding}
 
-class SpeedActor extends Actor with BigDecimalRounding {
-
-  var lastReceived: Option[Speed] = None
+class SpeedActor extends Actor with BigDecimalRounding with SendIfChanged[Speed] {
 
   override def receive: Receive = {
-    case MessageBigDecimals(bigDecimals) => {
-      val speed = Speed(r(bigDecimals(0), 0), r(bigDecimals(3), 0))
-
-      if(lastReceived.isDefined && lastReceived.get == speed){
-        Logger.debug(s"dropping speed $speed because last one was the same")
-      } else {
-        ActorRegistry.websocketRegistry ! SendMessageToWebSockets(speed)
-        lastReceived = Some(speed)
-      }
-    }
+    case MessageBigDecimals(bigDecimals) =>
+      sendIfChanged(Speed(r(bigDecimals(0), 0), r(bigDecimals(3), 0)))
   }
 }
