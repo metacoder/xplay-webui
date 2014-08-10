@@ -2,11 +2,11 @@ package actors
 
 import akka.actor.Actor
 import model.{Speed, MessageBigDecimals}
-import utils.{SendIfChanged, BigDecimalRounding}
+import utils.BigDecimalRounding
 
-class SpeedActor extends Actor with BigDecimalRounding with SendIfChanged[Speed] {
+class SpeedActor extends Actor with BigDecimalRounding with SaveLastMessage[Speed] {
 
-  override def receive: Receive = {
+  receiver {
     case MessageBigDecimals(bigDecimals) =>
       sendIfChanged(Speed(r(bigDecimals(0), 0), r(bigDecimals(3), 0)))
   }

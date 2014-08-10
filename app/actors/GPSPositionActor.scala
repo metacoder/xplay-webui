@@ -2,12 +2,11 @@ package actors
 
 import akka.actor.Actor
 import model.{MessageBigDecimals, GPSPosition}
-import utils.{SendIfChanged, BigDecimalRounding}
+import utils.BigDecimalRounding
 
-class GPSPositionActor() extends Actor with BigDecimalRounding with SendIfChanged[GPSPosition] {
+class GPSPositionActor() extends Actor with BigDecimalRounding with SaveLastMessage[GPSPosition] {
 
-  override def receive: Actor.Receive = {
-
+  receiver {
     case MessageBigDecimals(position) =>
       sendIfChanged(GPSPosition(position(0), position(1), r(position(2), 0), r(position(3), 0)))
   }

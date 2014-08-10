@@ -3,6 +3,7 @@ package actors
 import actors.UDPConnectionStatusActorMessages.SendStatusToWebSocketActor
 import akka.actor.{Props, ActorRef, Actor}
 import model.{Speed, UDPConnectionStatus, GPSPosition, PitchRollHeading}
+import play.api.Logger
 import play.api.libs.json. Json
 import utils.JSONMarshaller
 
@@ -13,18 +14,22 @@ object WebSocketActor {
   def props(out: ActorRef) = Props(new WebSocketActor(out))
 }
 
-
 class WebSocketActor(out: ActorRef) extends Actor with JSONMarshaller {
 
   ActorRegistry.websocketRegistry ! RegisterWebSocket(self)
   ActorRegistry.udpConnectionStatusActor ! SendStatusToWebSocketActor(self)
+
+  // TODO: refactoring?
+  ActorRegistry.gpsPositionActor ! SendLastMessageToWebSockets(self)
+  ActorRegistry.pitchRollHeadingActor ! SendLastMessageToWebSockets(self)
+  ActorRegistry.speedActor ! SendLastMessageToWebSockets(self)
 
   def receive = {
     case position: GPSPosition => out ! Json.toJson(position)
     case pitchRollHeading: PitchRollHeading => out ! Json.toJson(pitchRollHeading)
     case speed: Speed => out ! Json.toJson(speed)
     case status: UDPConnectionStatus => out ! Json.toJson(status)
-    case msg => println(msg)
+    case msg => Logger.warn(s"unknown message $msg")
   }
 
   override def postStop() = {
