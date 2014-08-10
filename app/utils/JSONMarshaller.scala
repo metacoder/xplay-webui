@@ -10,7 +10,7 @@ trait JSONMarshaller {
   implicit val positionFormat = new Writes[GPSPosition] {
     def writes(position: GPSPosition) = Json.arr(
       "p",
-      Some(position.lat),
+      position.lat,
       position.lon,
       position.ftmsl,
       position.ftagl
@@ -22,8 +22,7 @@ trait JSONMarshaller {
       "prh",
       pitchRollHeading.pitch,
       pitchRollHeading.roll,
-      pitchRollHeading.trueHeading,
-      pitchRollHeading.magHeading
+      pitchRollHeading.trueHeading
     )
   }
 

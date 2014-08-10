@@ -8,8 +8,8 @@ function MainCtrl($scope, $timeout, $modal){
 
     $scope.latitude = '-';
     $scope.longitude = '-';
-    $scope.altitude = '- ft';
-    $scope.overGround = '- ft';
+    $scope.altitude = '-';
+    $scope.overGround = '-';
     $scope.indKias = '-';
     $scope.trueKtgs = '-';
 
@@ -183,37 +183,36 @@ function MainCtrl($scope, $timeout, $modal){
 
 
             var msg = JSON.parse(msgevent.data);
-            if (msg.type == "position") {
-                position = new google.maps.LatLng(msg.lat, msg.lon)
+            if (msg[0] == "p") {
+                position = new google.maps.LatLng(msg[1], msg[2])
                 marker.setPosition(position);
-                console.log(msg);
 
                 if ($scope.followAircraft) {
                     map.panTo(position);
                 }
 
-                $scope.latitude = msg.lat.toFixed(3);
-                $scope.longitude = msg.lon.toFixed(3);
-                $scope.altitude = Math.round(msg.ftmsl) + ' ft';
-                $scope.overGround = Math.round(msg.ftagl) + ' ft';
+                $scope.latitude = msg[1].toFixed(3);
+                $scope.longitude = msg[2].toFixed(3);
+                $scope.altitude = msg[3];
+                $scope.overGround = msg[4];
 
                 if ($scope.settings.sidebar.altitudeChart && !$scope.settings.fullscreen) {
                     var now = new Date().getTime();
-                    altitudeSeries.append(now, msg.ftmsl);
-                    groundSeries.append(now, (msg.ftmsl - msg.ftagl));
+                    altitudeSeries.append(now, $scope.altitude);
+                    groundSeries.append(now, ($scope.altitude - $scope.overGround));
                 }
-            } else if (msg.type == "pitchRollHeading") {
-                plane.rotation = msg.trueHeading;
+            } else if (msg[0] == "prh") {
+                plane.rotation = msg[3];
                 marker.setIcon(plane);
                 if ($scope.settings.sidebar.artificialHorizon) {
-                    artificialHorizon.draw(msg.roll, msg.pitch);
+                    artificialHorizon.draw(msg[2], msg[1]);
                 }
-            } else if (msg.type == "speed") {
-                $scope.indKias = Math.round(msg.indKias);
-                $scope.trueKtgs = Math.round(msg.trueKtgs);
-            } else if (msg.type == "udpConnectionStatus"){
-                $scope.udpStatus = msg.status;
-                $scope.udpStatusIcon = STATUS[msg.status];
+            } else if (msg[0] == "s") {
+                $scope.indKias = msg[1];
+                $scope.trueKtgs = msg[2];
+            } else if (msg[0] == "u"){
+                $scope.udpStatus = msg[1];
+                $scope.udpStatusIcon = STATUS[$scope.udpStatus];
             } else {
                 console.log('in :', msg);
             }

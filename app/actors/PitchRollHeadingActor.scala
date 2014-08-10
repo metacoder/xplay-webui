@@ -13,14 +13,14 @@ class PitchRollHeadingActor extends Actor with BigDecimalRounding {
 
     case MessageBigDecimals(bds) => {
 
-      val pitchRollHeading = PitchRollHeading(r(bds(0),2), r(bds(1)), r(bds(2)), r(bds(3)))
+      val pitchRollHeading = PitchRollHeading(r(bds(0), 2), r(bds(1)), r(bds(2)), r(bds(3)))
 
       if(lastReceived.isDefined && lastReceived.get == pitchRollHeading){
         Logger.debug(s"dropping pitch roll heading $pitchRollHeading because last one was the same")
       } else {
         ActorRegistry.websocketRegistry ! SendMessageToWebSockets(pitchRollHeading)
+        lastReceived = Some(pitchRollHeading)
       }
-      lastReceived = Some(pitchRollHeading)
     }
   }
 }

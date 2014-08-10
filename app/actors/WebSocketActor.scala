@@ -3,8 +3,7 @@ package actors
 import actors.UDPConnectionStatusActorMessages.SendStatusToWebSocketActor
 import akka.actor.{Props, ActorRef, Actor}
 import model.{Speed, UDPConnectionStatus, GPSPosition, PitchRollHeading}
-import play.api.Logger
-import play.api.libs.json.{Writes, Json}
+import play.api.libs.json. Json
 import utils.JSONMarshaller
 
 /**
