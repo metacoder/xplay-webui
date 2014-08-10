@@ -7,8 +7,8 @@ function MainCtrl($scope, $timeout, $modal){
     /* ================================================================ */
 
     $scope.data = {
-        position: {latitude: '-', longitude: '-', altitude: '-', overGround: '-'},
-        speed: {indKias: '-', trueKtgs: '-'}
+        position: { latitude: '-', longitude: '-', altitude: '-', overGround: '-' },
+        speed: { indKias: '-', trueKtgs: '-' }
     }
 
     /* ================================================================ */
@@ -150,29 +150,25 @@ function MainCtrl($scope, $timeout, $modal){
     ws.onopen = function() {
         console.log( 'ws connected' );
         $scope.$apply(function() {
-            $scope.websocketStatus = 'connected';
-            $scope.websocketStatusIcon = STATUS.receiving;
+            $scope.status.websocket = { status: 'connected', icon: STATUS.receiving };
         });
     };
     ws.onconnecting = function() {
         console.log( 'ws connecting' );
         $scope.$apply(function() {
-            $scope.websocketStatus = 'connecting';
-            $scope.websocketStatusIcon = STATUS.error;
+            $scope.status.websocket = { status: 'connecting', icon: STATUS.error };
         });
     };
     ws.onerror = function() {
         console.log( 'ws error' );
         $scope.$apply(function() {
-            $scope.websocketStatus = 'error';
-            $scope.websocketStatusIcon = STATUS.error;
+            $scope.status.websocket = { status: 'error', icon: STATUS.error };
         });
     };
     ws.onclose = function() {
         console.log( 'ws closed' );
         $scope.$apply(function() {
-            $scope.websocketStatus = 'disconnected';
-            $scope.websocketStatusIcon = STATUS.error;
+            $scope.status.websocket = { status: 'disconnected', icon: STATUS.error };
         });
     };
     ws.onmessage = function(msgevent) {
@@ -181,7 +177,7 @@ function MainCtrl($scope, $timeout, $modal){
 
             var msg = JSON.parse(msgevent.data);
             if (msg[0] == "p") {
-                var pos = {latitude: msg[1], longitude: msg[2], altitude: msg[3], overGround: msg[4]};
+                var pos = { latitude: msg[1], longitude: msg[2], altitude: msg[3], overGround: msg[4] };
                 position = new google.maps.LatLng(pos.latitude, pos.longitude);
                 marker.setPosition(position);
 
@@ -199,7 +195,7 @@ function MainCtrl($scope, $timeout, $modal){
                     groundSeries.append(now, (pos.altitude - pos.overGround));
                 }
             } else if (msg[0] == "prh") {
-                var prh = {pitch: msg[1], roll: msg[2], trueHeading: msg[3]}
+                var prh = { pitch: msg[1], roll: msg[2], trueHeading: msg[3] }
                 plane.rotation = prh.trueHeading;
                 marker.setIcon(plane);
 
@@ -209,10 +205,9 @@ function MainCtrl($scope, $timeout, $modal){
 
                 $scope.data.pitchRollHeading = prh;
             } else if (msg[0] == "s") {
-                $scope.data.speed = {indKias: msg[1], trueKtgs: msg[2]}
+                $scope.data.speed = { indKias: msg[1], trueKtgs: msg[2] }
             } else if (msg[0] == "u"){
-                $scope.udpStatus = msg[1];
-                $scope.udpStatusIcon = STATUS[$scope.udpStatus];
+                $scope.status.udp = { status: msg[1], icon: STATUS[msg[1]] };
             } else {
                 console.log('in :', msg);
             }
@@ -226,10 +221,10 @@ function MainCtrl($scope, $timeout, $modal){
     /* connection status                                                */
     /* ================================================================ */
 
-    $scope.udpStatus = 'unknown';
-    $scope.udpStatusIcon = 'glyphicon-question-sign';
-    $scope.websocketStatus = 'connecting';
-    $scope.websocketStatusIcon = 'glyphicon-question-sign';
+    $scope.status = {
+        udp: { status: 'unknown', icon: 'glyphicon-question-sign' },
+        websocket: { status: 'connecting', icon: 'glyphicon-question-sign' }
+    }
 
     var STATUS = {
         initializing : "glyphicon-question-sign",
