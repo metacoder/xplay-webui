@@ -43,8 +43,8 @@
 
                     <h3>XPlay WebUI <span class="version">@play.api.Play.current.configuration.getString("application.version")</span></h3>
 
-                    <span class="glyphicon" ng-class="udpStatusIcon" tooltip="UDP-Status: {{udpStatus}}" tooltip-placement="left" tooltip-append-to-body="true"></span> <span class="hide-fullscreen">UDP-Status: {{udpStatus}}</span><br/>
-                    <span class="glyphicon" ng-class="websocketStatusIcon" tooltip="WebSocket-Status: {{websocketStatus}}" tooltip-placement="left" tooltip-append-to-body="true"></span> <span class="hide-fullscreen">WebSocket-Status: {{websocketStatus}}</span>
+                    <span class="glyphicon" ng-class="status.udp.icon" tooltip="UDP-Status: {{status.udp.status}}" tooltip-placement="left" tooltip-append-to-body="true"></span> <span class="hide-fullscreen">UDP-Status: {{status.udp.status}}</span><br/>
+                    <span class="glyphicon" ng-class="status.websocket.icon" tooltip="WebSocket-Status: {{status.websocket.status}}" tooltip-placement="left" tooltip-append-to-body="true"></span> <span class="hide-fullscreen">WebSocket-Status: {{status.websocket.status}}</span>
 
                     <div ng-show="!settings.fullscreen">
                         <div ng-if="settings.sidebar.position">
