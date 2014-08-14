@@ -19,7 +19,8 @@ function MainCtrl($scope, $timeout, $modal){
         map: {
             zoomLevel: 12,
             marker: {
-                fillColor: '#ff0000'
+                fillColor: '#ff0000',
+                strokeColor: '#000000'
             }
         },
         fullscreen: false,
@@ -71,7 +72,7 @@ function MainCtrl($scope, $timeout, $modal){
         fillColor : $scope.settings.map.marker.fillColor,
         fillOpacity : 1,
         scale : 0.1,
-        strokeColor : 'black',
+        strokeColor : $scope.settings.map.marker.strokeColor,
         strokeWeight : 1
     };
 
@@ -111,6 +112,7 @@ function MainCtrl($scope, $timeout, $modal){
 
     $scope.$watch('settings.map.marker', function() {
         plane.fillColor = $scope.settings.map.marker.fillColor;
+        plane.strokeColor = $scope.settings.map.marker.strokeColor;
         marker.setIcon(plane);
     }, true);
 
