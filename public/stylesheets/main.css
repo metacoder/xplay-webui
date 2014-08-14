@@ -105,7 +105,10 @@ abbr[tooltip] {
 /* ================================================================ */
 
 .colorLabel {
-    margin-right: 5px;
+    margin-left: 5px;
+}
+.btn.colorPicker {
+    padding: 2px 4px !important;
 }
 
 
