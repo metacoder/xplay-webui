@@ -106,6 +106,12 @@ function MainCtrl($scope, $timeout, $modal){
         }
     });
 
+    $scope.$watch('followAircraft', function() {
+        if ($scope.followAircraft) {
+            map.panTo(position);
+        }
+    });
+
     $scope.$watch('settings.fullscreen', function() {
         $timeout(function () { google.maps.event.trigger(map, 'resize'); });
     });
