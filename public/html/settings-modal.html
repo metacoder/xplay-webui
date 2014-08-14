@@ -5,26 +5,41 @@
 </div>
 <div class="modal-body">
     <form role="form">
-        <h4>Sidebar</h4>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" ng-model="settings.sidebar.position"> Show Position
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" ng-model="settings.sidebar.speed"> Show Speed
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" ng-model="settings.sidebar.altitudeChart"> Show Altitude Chart
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" ng-model="settings.sidebar.artificialHorizon"> Show Artificial Horizon
-            </label>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>Map</h4>
+                <div class="form-group">
+                    <label for="planeColor" class="colorLabel">Plane Color</label>
+                    <input type="color" id="planeColor" class="btn btn-default" ng-model="settings.map.marker.fillColor">
+                </div>
+                <div class="form-group">
+                    <label for="planeBorderColor" class="colorLabel">Plane Border</label>
+                    <input type="color" id="planeBorderColor" class="btn btn-default" ng-model="settings.map.marker.strokeColor">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h4>Sidebar</h4>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="settings.sidebar.position"> Show Position
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="settings.sidebar.speed"> Show Speed
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="settings.sidebar.altitudeChart"> Show Altitude Chart
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="settings.sidebar.artificialHorizon"> Show Artificial Horizon
+                    </label>
+                </div>
+            </div>
         </div>
     </form>
 </div>
