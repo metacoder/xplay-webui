@@ -32,12 +32,14 @@ function MainCtrl($scope, $timeout, $modal){
         }
     };
 
-    function loadDefaultSettings(settings, defaultSettings) {
+    function loadDefaultSettings(settings, defaultSettings, overwrite) {
         for (var key in defaultSettings) {
             if (!(key in settings)) {
                 settings[key] = defaultSettings[key];
             } else if (typeof defaultSettings[key] === 'object') {
-                loadDefaultSettings(settings[key], defaultSettings[key])
+                loadDefaultSettings(settings[key], defaultSettings[key], overwrite)
+            } else if (overwrite) {
+                settings[key] = defaultSettings[key];
             }
         }
     }
@@ -47,6 +49,10 @@ function MainCtrl($scope, $timeout, $modal){
         loadDefaultSettings($scope.settings, defaultSettings);
     } else {
         $scope.settings = defaultSettings;
+    }
+
+    $scope.resetSettings = function() {
+        loadDefaultSettings($scope.settings, defaultSettings, true);
     }
 
     $scope.$watch('settings', function() {
