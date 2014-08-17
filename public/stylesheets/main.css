@@ -54,21 +54,31 @@ abbr[tooltip] {
 #sidebar .sidebar-buttons {
     margin: -5px -5px 5px 0;
 }
+.xplay-container.fullscreen #sidebar .sidebar-buttons {
+    margin-bottom: 10px;
+}
+
 #sidebar .hide-button,
 #sidebar:hover .show-button,
-#sidebar .settings-button {
+#sidebar .settings-button,
+.xplay-container.fullscreen #sidebar:hover .settings-button {
     border: 1px solid #CCC;
-    padding: 5px 5px 5px 5px;
+    padding: 5px;
+    margin: 0;
+    background-color: #F5F5F5;
     cursor: pointer;
 }
 #sidebar .show-button {
-    margin: 21px 5px 16px;
+    margin: 21px 6px 11px;
     cursor: pointer;
 }
 #sidebar:hover .show-button {
-    margin: 15px 15px 10px 0;
-    background-color: #F5F5F5;
-    float: right;
+    margin: 15px 15px 5px 0;
+}
+.xplay-container.fullscreen #sidebar .settings-button {
+    border: none;
+    padding: 0;
+    margin: 6px 0 6px 7px;
 }
 
 /* ================================================================ */
