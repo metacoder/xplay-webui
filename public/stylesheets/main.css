@@ -55,7 +55,7 @@ abbr[tooltip] {
     margin: -5px -5px 5px 0;
 }
 .xplay-container.fullscreen #sidebar .sidebar-buttons {
-    margin-bottom: 40px;
+    margin-bottom: 10px;
 }
 
 #sidebar .hide-button,
@@ -69,18 +69,16 @@ abbr[tooltip] {
     cursor: pointer;
 }
 #sidebar .show-button {
-    margin: 21px 6px 16px;
+    margin: 21px 6px 11px;
     cursor: pointer;
 }
+#sidebar:hover .show-button {
+    margin: 15px 15px 5px 0;
+}
 .xplay-container.fullscreen #sidebar .settings-button {
-    position: absolute;
-    top: 50px;
     border: none;
     padding: 0;
     margin: 6px 0 6px 7px;
-}
-#sidebar:hover .show-button {
-    margin: 15px 15px 10px 0;
 }
 
 /* ================================================================ */

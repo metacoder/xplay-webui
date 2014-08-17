@@ -36,9 +36,9 @@
                 <!-- sidebar -->
                 <div id="sidebar">
                     <div class="sidebar-buttons pull-right">
+                        <span class="show-button glyphicon glyphicon-chevron-left" ng-show="settings.fullscreen" ng-click="settings.fullscreen = false"></span>
                         <span class="settings-button glyphicon glyphicon-cog" ng-click="openSettings()"></span>
                         <span class="hide-button glyphicon glyphicon-chevron-right" ng-show="!settings.fullscreen" ng-click="settings.fullscreen = true"></span>
-                        <span class="show-button glyphicon glyphicon-chevron-left" ng-show="settings.fullscreen" ng-click="settings.fullscreen = false"></span>
                     </div>
 
                     <h3>XPlay WebUI <span class="version">@play.api.Play.current.configuration.getString("application.version")</span></h3>
