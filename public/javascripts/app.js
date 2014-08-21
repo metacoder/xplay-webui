@@ -179,7 +179,8 @@ function MainCtrl($scope, $timeout, $modal){
     /* websocket code                                                   */
     /* ================================================================ */
 
-    var ws = new ReconnectingWebSocket( 'ws://' + document.location.host + '/websocket' ) ;
+    var wsProtocol = 'https:' == document.location.protocol ? 'wss:' : 'ws:';
+    var ws = new ReconnectingWebSocket( wsProtocol + '//' + document.location.host + '/websocket' ) ;
     ws.onopen = function() {
         console.log( 'ws connected' );
         $scope.$apply(function() {
