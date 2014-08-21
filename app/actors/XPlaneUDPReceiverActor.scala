@@ -4,7 +4,6 @@ import java.net.InetSocketAddress
 
 import akka.actor.{Actor, ActorRef}
 import akka.io.{Udp, IO}
-import model.MessageBigDecimals
 import play.api.Logger
 
 class XPlaneUDPReceiverActor() extends Actor with XPlanePayloadParser {
@@ -45,23 +44,9 @@ class XPlaneUDPReceiverActor() extends Actor with XPlanePayloadParser {
 
         val (_, message) = data.splitAt(5)
 
-        message.grouped(36) foreach { payload =>
+        ActorRegistry.demoFileActor ! message
 
-          val messageType = payload(0)
-          val messageContent = payload.takeRight(32)
-
-          val bigDecimals = parseBigDecimalsFromMessage(messageContent)
-
-          messageType match {
-            case 20 => ActorRegistry.gpsPositionActor ! MessageBigDecimals(bigDecimals)
-            case 17 => ActorRegistry.pitchRollHeadingActor ! MessageBigDecimals(bigDecimals)
-            case 3 => ActorRegistry.speedActor ! MessageBigDecimals(bigDecimals)
-
-            case unknown => Logger.debug(s"ignoring message type $unknown because i can't handle this")
-          }
-
-        }
-
+        parsePayloadMessages(message)
       } catch {
         case e: Exception => Logger.error(s"exception caught while parsing message $data", e)
       }

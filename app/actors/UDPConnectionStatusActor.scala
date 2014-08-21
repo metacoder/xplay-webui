@@ -46,6 +46,7 @@ class UDPConnectionStatusActor extends Actor {
 
     case Tick if lastMessageReceived.get < System.currentTimeMillis() - 1000 =>
       websocketRegistry ! SendMessageToWebSockets(statusWaiting)
+      ActorRegistry.demoFileActor ! statusWaiting
       context.become(waitingForXplaneData)
 
     case MessageReceived =>
