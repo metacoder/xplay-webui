@@ -17,7 +17,7 @@ import play.api.Logger
  */
 class DemoFileActor  extends Actor with XPlanePayloadParser {
 
-  val path = Paths.get("data.txt")
+  val path = Paths.get("data.txt").toAbsolutePath
 
   var data = readFile()
 
@@ -30,6 +30,7 @@ class DemoFileActor  extends Actor with XPlanePayloadParser {
       if (pos >= 0) {
         if (path.toFile.exists) path.toFile.renameTo(new File("data.old." + System.currentTimeMillis() + ".txt"))
         out = Files.newOutputStream(path)
+        Logger.info(s"start recording to: $path")
         pos = -1
       }
       out.write(Base64.encodeBase64(message.toArray))
@@ -56,8 +57,12 @@ class DemoFileActor  extends Actor with XPlanePayloadParser {
 
   private def readFile(): List[Array[Byte]] = {
     if (path.toFile.exists) {
+      Logger.info(s"start playing from: $path")
       (for (line <- Source.fromFile(path.toFile).getLines)
       yield Base64.decodeBase64(line)).toList
-    } else List()
+    } else {
+      Logger.info(s"file not found, ignoring: $path")
+      List()
+    }
   }
 }
