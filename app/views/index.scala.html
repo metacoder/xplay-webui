@@ -5,6 +5,7 @@
         <title>XPlay WebUI</title>
         <link rel="stylesheet" media="screen" href="@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.css"))">
         <link rel="stylesheet" media="screen" href="@routes.WebJarAssets.at(WebJarAssets.locate("leaflet.css"))">
+        <link rel="stylesheet" media="screen" href="@routes.WebJarAssets.at(WebJarAssets.locate("font-awesome.min.css"))">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
 
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
@@ -30,12 +31,6 @@
                 <div id="map-container">
                     <div id="inner-map-container">
                         <div id="map"></div>
-
-                        <button id="followAircraft" class="btn" ng-class="{true: 'btn-success', false: 'btn-danger'}[followAircraft]" ng-click="followAircraft = !followAircraft">
-                            <span class="glyphicon glyphicon-ok" ng-show="followAircraft"></span>
-                            <span class="glyphicon glyphicon-remove" ng-show="!followAircraft"></span>
-                            Follow Aircraft
-                        </button>
                     </div>
                 </div>
                 <!-- sidebar -->

@@ -104,6 +104,13 @@ function MainCtrl($scope, $timeout, $modal){
         },{}));
     }
 
+    L.easyButton("fa-crosshairs", function (){
+        $scope.$apply(function () {
+            $scope.followAircraft = true;
+        });
+        map.panTo(position);
+    }, "Follow Aircraft", map);
+
     map.on('zoomlevelschange', function () {
         $scope.$apply(function () {
             $scope.settings.map.zoomLevel = map.getZoom();
@@ -115,12 +122,6 @@ function MainCtrl($scope, $timeout, $modal){
             $scope.$apply(function () {
                 $scope.followAircraft = false;
             });
-        }
-    });
-
-    $scope.$watch('followAircraft', function () {
-        if ($scope.followAircraft) {
-            map.panTo(position);
         }
     });
 
