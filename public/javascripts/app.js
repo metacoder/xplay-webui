@@ -72,8 +72,6 @@ function MainCtrl($scope, $timeout, $modal){
 
     $scope.followAircraft = true;
 
-    var googleMapsApiLoaded = typeof google !== 'undefined';
-
     var position = new L.LatLng(0, 0)
     var myOptions = {
         zoom: $scope.settings.map.zoomLevel,
@@ -96,7 +94,7 @@ function MainCtrl($scope, $timeout, $modal){
     });
     map.addLayer(osmLayer);
 
-    if (googleMapsApiLoaded) {
+    if (typeof google !== 'undefined') {
         var gmapsRoadLayer = new L.Google('ROADMAP'),
             gmapsSatelliteLayer = new L.Google('SATELLITE');
         map.addControl(new L.Control.Layers({
