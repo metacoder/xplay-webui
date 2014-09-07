@@ -128,7 +128,7 @@ function MainCtrl($scope, $timeout, $modal){
 
     $scope.$watch('settings.fullscreen', function () {
         $timeout(function () {
-            map.fire('resize');
+            map.invalidateSize();
         });
     });
 
