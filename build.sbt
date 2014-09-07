@@ -13,6 +13,8 @@ scalaVersion := "2.11.1"
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
 
+resolvers += "c4c nexus repository" at "http://nexus.coding4.coffee/content/groups/hosted"
+
 libraryDependencies ++= Seq(
   jdbc,
   anorm,
@@ -28,6 +30,8 @@ libraryDependencies ++= Seq(
   "org.webjars" % "angular-ui-bootstrap" % "0.11.0-2",
   "org.webjars" % "smoothie" % "1.24",
   "org.webjars" % "reconnecting-websocket" % "23d2fbc",
+  "org.webjars" % "font-awesome" % "4.2.0",
   "org.webjars" % "leaflet" % "0.7.3",
-  "org.webjars" % "leaflet-plugins" % "1.1.2"
+  "org.webjars" % "leaflet-plugins" % "1.1.2",
+  "org.webjars" % "leaflet-easybutton" % "0b147ac"
 )
