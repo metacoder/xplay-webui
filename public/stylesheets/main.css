@@ -59,9 +59,7 @@ abbr[tooltip] {
 }
 
 #sidebar .hide-button,
-#sidebar:hover .show-button,
-#sidebar .settings-button,
-.xplay-container.fullscreen #sidebar:hover .settings-button {
+#sidebar .settings-button {
     border: 1px solid #CCC;
     padding: 5px;
     margin: 0;
@@ -71,9 +69,6 @@ abbr[tooltip] {
 #sidebar .show-button {
     margin: 21px 6px 11px;
     cursor: pointer;
-}
-#sidebar:hover .show-button {
-    margin: 15px 15px 5px 0;
 }
 .xplay-container.fullscreen #sidebar .settings-button {
     border: none;
