@@ -9,12 +9,15 @@
             <div class="col-sm-6">
                 <h4>Map</h4>
                 <div class="form-group">
-                    <input type="color" id="planeColor" class="btn btn-default colorPicker" ng-model="settings.map.marker.fillColor">
-                    <label for="planeColor" class="colorLabel">Plane Color</label>
-                </div>
-                <div class="form-group">
-                    <input type="color" id="planeBorderColor" class="btn btn-default colorPicker" ng-model="settings.map.marker.strokeColor">
-                    <label for="planeBorderColor" class="colorLabel">Plane Border</label>
+                    <label for="planeVariant" class="variantLabel">Plane Color Variant</label>
+                    <select id="planeVariant" class="btn btn-default colorPicker" ng-model="settings.map.marker.variant">
+                        <option value="red_black">Red plane, black outline</option>
+                        <option value="red_white">Red plane, white outline</option>
+                        <option value="green_black">Green plane, black outline</option>
+                        <option value="green_white">Green plane, white outline</option>
+                        <option value="blue_black">Blue plane, black outline</option>
+                        <option value="blue_white">Blue plane, white outline</option>
+                    </select>
                 </div>
             </div>
             <div class="col-sm-6">
