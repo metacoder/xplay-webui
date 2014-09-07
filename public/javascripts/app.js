@@ -72,7 +72,7 @@ function MainCtrl($scope, $timeout, $modal){
 
     $scope.followAircraft = true;
 
-    var googleMapsApiLoaded = typeof google !== "undefined";
+    var googleMapsApiLoaded = typeof google !== 'undefined';
 
     var position = new L.LatLng(0, 0)
     var myOptions = {
@@ -80,7 +80,7 @@ function MainCtrl($scope, $timeout, $modal){
         center: position,
     };
 
-    var map = L.map("map", myOptions);
+    var map = L.map('map', myOptions);
 
     var plane = new L.Marker(position, {
         title: 'plane',
@@ -159,7 +159,7 @@ function MainCtrl($scope, $timeout, $modal){
             altitudeChart = new SmoothieChart({millisPerPixel: 100, yRangeFunction: altitudeChartRange});
             altitudeChart.addTimeSeries(altitudeSeries, {lineWidth: 2, strokeStyle: '#0072ff', fillStyle: 'rgba(0,114,255,0.30)'});
             altitudeChart.addTimeSeries(groundSeries, {lineWidth: 2, strokeStyle: '#007d00', fillStyle: 'rgba(0,125,0,0.30)'});
-            altitudeChart.streamTo(document.getElementById("altitudeChart"), 250);
+            altitudeChart.streamTo(document.getElementById('altitudeChart'), 250);
         }
     });
 
@@ -209,7 +209,7 @@ function MainCtrl($scope, $timeout, $modal){
         $scope.$apply(function() {
 
             var msg = JSON.parse(msgevent.data);
-            if (msg[0] == "p") {
+            if (msg[0] == 'p') {
                 var pos = { latitude: msg[1], longitude: msg[2], altitude: msg[3], overGround: msg[4] };
 
                 position = new L.LatLng(pos.latitude, pos.longitude);
@@ -227,7 +227,7 @@ function MainCtrl($scope, $timeout, $modal){
                     altitudeSeries.append(now, pos.altitude);
                     groundSeries.append(now, (pos.altitude - pos.overGround));
                 }
-            } else if (msg[0] == "prh") {
+            } else if (msg[0] == 'prh') {
                 var prh = { pitch: msg[1], roll: msg[2], trueHeading: msg[3] }
 
                 plane.setIconAngle(prh.trueHeading);
@@ -237,9 +237,9 @@ function MainCtrl($scope, $timeout, $modal){
                 }
 
                 $scope.data.pitchRollHeading = prh;
-            } else if (msg[0] == "s") {
+            } else if (msg[0] == 's') {
                 $scope.data.speed = { indKias: msg[1], trueKtgs: msg[2] }
-            } else if (msg[0] == "u"){
+            } else if (msg[0] == 'u'){
                 $scope.status.udp = { status: msg[1], icon: STATUS[msg[1]] };
             } else {
                 console.log('in :', msg);
@@ -259,9 +259,9 @@ function MainCtrl($scope, $timeout, $modal){
     }
 
     var STATUS = {
-        initializing : "glyphicon-question-sign",
-        waiting : "glyphicon-ok-sign icon-warning",
-        receiving : "glyphicon-ok-sign icon-success",
-        error : "glyphicon-remove-sign icon-danger"
+        initializing : 'glyphicon-question-sign',
+        waiting : 'glyphicon-ok-sign icon-warning',
+        receiving : 'glyphicon-ok-sign icon-success',
+        error : 'glyphicon-remove-sign icon-danger'
     };
 }
