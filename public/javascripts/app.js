@@ -103,12 +103,12 @@ function MainCtrl($scope, $timeout, $modal){
         })
     }).addTo(map);
 
-    L.easyButton("fa-crosshairs", function (){
+    L.easyButton('fa-crosshairs', function (){
         $scope.$apply(function () {
             $scope.followAircraft = true;
         });
         map.panTo(position);
-    }, "Follow Aircraft", map);
+    }, 'Follow Aircraft', map);
 
     map.on('zoomend', function () {
         $scope.$apply(function () {
