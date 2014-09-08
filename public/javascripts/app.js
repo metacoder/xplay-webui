@@ -213,7 +213,7 @@ function MainCtrl($scope, $timeout, $modal){
                 position = new L.LatLng(pos.latitude, pos.longitude);
                 plane.setLatLng(position);
                 if ($scope.followAircraft) {
-                    map.panTo(position, {animate: false});
+                    map.panTo(position);
                 }
 
                 pos.latitude = pos.latitude.toFixed(3);
