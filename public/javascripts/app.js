@@ -17,6 +17,7 @@ function MainCtrl($scope, $timeout, $modal){
 
     var defaultSettings = {
         map: {
+            baselayer: 'OpenStreetMap',
             zoomLevel: 12,
             marker: {
                 variant: 'red_black'
@@ -88,7 +89,7 @@ function MainCtrl($scope, $timeout, $modal){
     var myOptions = {
         zoom: $scope.settings.map.zoomLevel,
         center: position,
-        layers: layers['OpenStreetMap']
+        layers: layers[$scope.settings.map.baselayer]
     };
 
     var map = L.map('map', myOptions);
@@ -113,6 +114,12 @@ function MainCtrl($scope, $timeout, $modal){
     map.on('zoomend', function () {
         $scope.$apply(function () {
             $scope.settings.map.zoomLevel = map.getZoom();
+        });
+    });
+
+    map.on('baselayerchange', function (layer) {
+        $scope.$apply(function () {
+            $scope.settings.map.baselayer = layer.name;
         });
     });
 
