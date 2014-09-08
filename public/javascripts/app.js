@@ -110,7 +110,7 @@ function MainCtrl($scope, $timeout, $modal){
         map.panTo(position);
     }, "Follow Aircraft", map);
 
-    map.on('zoomlevelschange', function () {
+    map.on('zoomend', function () {
         $scope.$apply(function () {
             $scope.settings.map.zoomLevel = map.getZoom();
         });
