@@ -73,12 +73,26 @@ function MainCtrl($scope, $timeout, $modal){
     $scope.followAircraft = true;
 
     var position = new L.LatLng(0, 0)
+
+    var layers = {
+        'OpenStreetMap': new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
+        })
+    };
+
+    if (typeof google !== 'undefined') {
+        layers['Google Road'] = new L.Google('ROADMAP');
+        layers['Google Satellite'] = new L.Google('SATELLITE');
+    }
+
     var myOptions = {
         zoom: $scope.settings.map.zoomLevel,
         center: position,
+        layers: layers['OpenStreetMap']
     };
 
     var map = L.map('map', myOptions);
+    map.addControl(new L.Control.Layers(layers,{}));
 
     var plane = new L.Marker(position, {
         title: 'plane',
@@ -88,21 +102,6 @@ function MainCtrl($scope, $timeout, $modal){
             iconAnchor: new L.Point(28, 28)
         })
     }).addTo(map);
-
-    var osmLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
-    });
-    map.addLayer(osmLayer);
-
-    if (typeof google !== 'undefined') {
-        var gmapsRoadLayer = new L.Google('ROADMAP'),
-            gmapsSatelliteLayer = new L.Google('SATELLITE');
-        map.addControl(new L.Control.Layers({
-            'OpenStreetMap': osmLayer,
-            'Google Road': gmapsRoadLayer,
-            'Google Satellite': gmapsSatelliteLayer
-        },{}));
-    }
 
     L.easyButton("fa-crosshairs", function (){
         $scope.$apply(function () {
@@ -214,7 +213,7 @@ function MainCtrl($scope, $timeout, $modal){
                 position = new L.LatLng(pos.latitude, pos.longitude);
                 plane.setLatLng(position);
                 if ($scope.followAircraft) {
-                    map.panTo(position);
+                    map.panTo(position, {animate: false});
                 }
 
                 pos.latitude = pos.latitude.toFixed(3);
