@@ -17,6 +17,7 @@ function MainCtrl($scope, $timeout, $modal){
 
     var defaultSettings = {
         map: {
+            baselayer: 'OpenStreetMap',
             zoomLevel: 12,
             marker: {
                 variant: 'red_black'
@@ -73,12 +74,27 @@ function MainCtrl($scope, $timeout, $modal){
     $scope.followAircraft = true;
 
     var position = new L.LatLng(0, 0)
+
+    var layers = {
+        'OpenStreetMap': new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>',
+            updateWhenIdle: false
+        })
+    };
+
+    if (typeof google !== 'undefined') {
+        layers['Google Road'] = new L.Google('ROADMAP');
+        layers['Google Satellite'] = new L.Google('SATELLITE');
+    }
+
     var myOptions = {
         zoom: $scope.settings.map.zoomLevel,
         center: position,
+        layers: layers[$scope.settings.map.baselayer]
     };
 
     var map = L.map('map', myOptions);
+    map.addControl(new L.Control.Layers(layers,{}));
 
     var plane = new L.Marker(position, {
         title: 'plane',
@@ -89,31 +105,28 @@ function MainCtrl($scope, $timeout, $modal){
         })
     }).addTo(map);
 
-    var osmLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
+    plane.on('move', function(e) {
+        if ($scope.followAircraft) {
+            map.panTo(e.latlng);
+        }
     });
-    map.addLayer(osmLayer);
 
-    if (typeof google !== 'undefined') {
-        var gmapsRoadLayer = new L.Google('ROADMAP'),
-            gmapsSatelliteLayer = new L.Google('SATELLITE');
-        map.addControl(new L.Control.Layers({
-            'OpenStreetMap': osmLayer,
-            'Google Road': gmapsRoadLayer,
-            'Google Satellite': gmapsSatelliteLayer
-        },{}));
-    }
-
-    L.easyButton("fa-crosshairs", function (){
+    L.easyButton('fa-crosshairs', function (){
         $scope.$apply(function () {
             $scope.followAircraft = true;
         });
         map.panTo(position);
-    }, "Follow Aircraft", map);
+    }, 'Follow Aircraft', map);
 
-    map.on('zoomlevelschange', function () {
+    map.on('zoomend', function () {
         $scope.$apply(function () {
             $scope.settings.map.zoomLevel = map.getZoom();
+        });
+    });
+
+    map.on('baselayerchange', function (layer) {
+        $scope.$apply(function () {
+            $scope.settings.map.baselayer = layer.name;
         });
     });
 
@@ -213,9 +226,6 @@ function MainCtrl($scope, $timeout, $modal){
 
                 position = new L.LatLng(pos.latitude, pos.longitude);
                 plane.setLatLng(position);
-                if ($scope.followAircraft) {
-                    map.panTo(position);
-                }
 
                 pos.latitude = pos.latitude.toFixed(3);
                 pos.longitude = pos.longitude.toFixed(3);
