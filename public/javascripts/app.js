@@ -77,7 +77,8 @@ function MainCtrl($scope, $timeout, $modal){
 
     var layers = {
         'OpenStreetMap': new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>',
+            updateWhenIdle: false
         })
     };
 
