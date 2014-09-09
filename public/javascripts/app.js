@@ -105,6 +105,12 @@ function MainCtrl($scope, $timeout, $modal){
         })
     }).addTo(map);
 
+    plane.on('move', function(e) {
+        if ($scope.followAircraft) {
+            map.panTo(e.latlng);
+        }
+    });
+
     L.easyButton('fa-crosshairs', function (){
         $scope.$apply(function () {
             $scope.followAircraft = true;
@@ -220,9 +226,6 @@ function MainCtrl($scope, $timeout, $modal){
 
                 position = new L.LatLng(pos.latitude, pos.longitude);
                 plane.setLatLng(position);
-                if ($scope.followAircraft) {
-                    map.panTo(position);
-                }
 
                 pos.latitude = pos.latitude.toFixed(3);
                 pos.longitude = pos.longitude.toFixed(3);
