@@ -82,12 +82,16 @@ function MainCtrl($scope, $timeout, $modal){
             googleSatelliteLayer = new L.Google('SATELLITE');
             layerControl.addBaseLayer(googleRoadmapLayer, 'Google Road');
             layerControl.addBaseLayer(googleSatelliteLayer, 'Google Satellite');
-            if ($scope.settings.map.baselayer === 'Google Road') {
+            if($scope.settings.map.baselayer.indexOf('Google') > -1) {
                 map.removeLayer(layers[defaultSettings.map.baselayer]);
-                map.addLayer(googleRoadmapLayer, true);
-            } else if ($scope.settings.map.baselayer === 'Google Satellite') {
-                map.removeLayer(layers[defaultSettings.map.baselayer]);
-                map.addLayer(googleSatelliteLayer, true);
+                switch($scope.settings.map.baselayer) {
+                    case 'Google Road':
+                        map.addLayer(googleRoadmapLayer, true);
+                        break;
+                    case 'Google Satellite':
+                        map.addLayer(googleSatelliteLayer, true);
+                        break;
+                }
             }
         }
     }).bind(this);
@@ -117,12 +121,10 @@ function MainCtrl($scope, $timeout, $modal){
             if (typeof google !== 'undefined') {
                 layerControl.removeLayer(googleRoadmapLayer);
                 layerControl.removeLayer(googleSatelliteLayer);
-                if ($scope.settings.map.baselayer === 'Google Road') {
+                if ($scope.settings.map.baselayer.indexOf('Google') > -1) {
+                    map.addLayer(layers[defaultSettings.map.baselayer], true);
                     map.removeLayer(googleRoadmapLayer);
-                    map.addLayer(layers[defaultSettings.map.baselayer], true);
-                } else if ($scope.settings.map.baselayer === 'Google Satellite') {
                     map.removeLayer(googleSatelliteLayer);
-                    map.addLayer(layers[defaultSettings.map.baselayer], true);
                 }
             }
         }
