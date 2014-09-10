@@ -121,9 +121,11 @@ function MainCtrl($scope, $timeout, $modal){
             if (typeof google !== 'undefined') {
                 layerControl.removeLayer(googleRoadmapLayer);
                 layerControl.removeLayer(googleSatelliteLayer);
-                map.addLayer(layers[defaultSettings.map.baselayer], true);
-                map.removeLayer(googleRoadmapLayer);
-                map.removeLayer(googleSatelliteLayer);
+                if ($scope.settings.map.baselayer.indexOf('Google') > -1) {
+                    map.addLayer(layers[defaultSettings.map.baselayer], true);
+                    map.removeLayer(googleRoadmapLayer);
+                    map.removeLayer(googleSatelliteLayer);
+                }
             }
         }
     });
