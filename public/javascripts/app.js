@@ -69,18 +69,26 @@ function MainCtrl($scope, $timeout, $modal){
 
 
     /* ================================================================ */
-    /* map code                                                         */
+    /* google maps code                                                 */
     /* ================================================================ */
+
+    var googleRoadmapLayer, googleSatelliteLayer;
 
     // this is thrown into the global window object since it gets called by
     // Googles Callback
-    var googleRoadmapLayer, googleSatelliteLayer;
     window.addGoogleLayer = (function() {
         if (typeof google !== 'undefined') {
             googleRoadmapLayer = new L.Google('ROADMAP');
             googleSatelliteLayer = new L.Google('SATELLITE');
             layerControl.addBaseLayer(googleRoadmapLayer, 'Google Road');
             layerControl.addBaseLayer(googleSatelliteLayer, 'Google Satellite');
+            if ($scope.settings.map.baselayer === 'Google Road') {
+                map.removeLayer(layers[defaultSettings.map.baselayer]);
+                map.addLayer(googleRoadmapLayer, true);
+            } else if ($scope.settings.map.baselayer === 'Google Satellite') {
+                map.removeLayer(layers[defaultSettings.map.baselayer]);
+                map.addLayer(googleSatelliteLayer, true);
+            }
         }
     }).bind(this);
 
@@ -109,9 +117,21 @@ function MainCtrl($scope, $timeout, $modal){
             if (typeof google !== 'undefined') {
                 layerControl.removeLayer(googleRoadmapLayer);
                 layerControl.removeLayer(googleSatelliteLayer);
+                if ($scope.settings.map.baselayer === 'Google Road') {
+                    map.removeLayer(googleRoadmapLayer);
+                    map.addLayer(layers[defaultSettings.map.baselayer], true);
+                } else if ($scope.settings.map.baselayer === 'Google Satellite') {
+                    map.removeLayer(googleSatelliteLayer);
+                    map.addLayer(layers[defaultSettings.map.baselayer], true);
+                }
             }
         }
     });
+
+
+    /* ================================================================ */
+    /* leaflet map code                                                 */
+    /* ================================================================ */
 
     $scope.followAircraft = true;
 
@@ -130,7 +150,7 @@ function MainCtrl($scope, $timeout, $modal){
     var myOptions = {
         zoom: $scope.settings.map.zoomLevel,
         center: position,
-        layers: layers[$scope.settings.map.baselayer]
+        layers: $scope.settings.map.baselayer in layers ? layers[$scope.settings.map.baselayer] : layers[defaultSettings.map.baselayer]
     };
 
     var map = L.map('map', myOptions),
@@ -166,7 +186,7 @@ function MainCtrl($scope, $timeout, $modal){
     });
 
     map.on('baselayerchange', function (layer) {
-        $scope.$apply(function () {
+        $timeout(function () {
             $scope.settings.map.baselayer = layer.name;
         });
     });
@@ -192,6 +212,7 @@ function MainCtrl($scope, $timeout, $modal){
             iconAnchor: new L.Point(28, 28)
         }));
     }, true);
+
 
     /* ================================================================ */
     /* charts                                                           */
