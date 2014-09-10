@@ -69,28 +69,73 @@ function MainCtrl($scope, $timeout, $modal){
 
 
     /* ================================================================ */
-    /* map code                                                         */
+    /* google maps code                                                 */
     /* ================================================================ */
+
+    var googleRoadmapLayer, googleSatelliteLayer;
 
     // this is thrown into the global window object since it gets called by
     // Googles Callback
     window.addGoogleLayer = (function() {
         if (typeof google !== 'undefined') {
-            layerControl.addBaseLayer(new L.Google('ROADMAP'), 'Google Road');
-            layerControl.addBaseLayer(new L.Google('SATELLITE'), 'Google Satellite');
+            googleRoadmapLayer = new L.Google('ROADMAP');
+            googleSatelliteLayer = new L.Google('SATELLITE');
+            layerControl.addBaseLayer(googleRoadmapLayer, 'Google Road');
+            layerControl.addBaseLayer(googleSatelliteLayer, 'Google Satellite');
+            if ($scope.settings.map.baselayer === 'Google Road') {
+                map.removeLayer(layers[defaultSettings.map.baselayer]);
+                map.addLayer(googleRoadmapLayer, true);
+            } else if ($scope.settings.map.baselayer === 'Google Satellite') {
+                map.removeLayer(layers[defaultSettings.map.baselayer]);
+                map.addLayer(googleSatelliteLayer, true);
+            }
         }
     }).bind(this);
 
+    var googleMapsApiAdded = false;
+
     if($scope.settings.map.gmaps) {
+        addGoogleMapsApi();
+    }
+
+    function addGoogleMapsApi() {
         var tag = document.createElement('script');
         tag.type = 'text/javascript';
         tag.src = '//maps.googleapis.com/maps/api/js?v=3.exp&callback=addGoogleLayer';
         document.getElementsByTagName('head')[0].appendChild(tag);
+        googleMapsApiAdded = true;
     }
+
+    $scope.$watch('settings.map.gmaps', function () {
+        if ($scope.settings.map.gmaps) {
+            if (!googleMapsApiAdded) {
+                addGoogleMapsApi();
+            } else {
+                addGoogleLayer();
+            }
+        } else {
+            if (typeof google !== 'undefined') {
+                layerControl.removeLayer(googleRoadmapLayer);
+                layerControl.removeLayer(googleSatelliteLayer);
+                if ($scope.settings.map.baselayer === 'Google Road') {
+                    map.removeLayer(googleRoadmapLayer);
+                    map.addLayer(layers[defaultSettings.map.baselayer], true);
+                } else if ($scope.settings.map.baselayer === 'Google Satellite') {
+                    map.removeLayer(googleSatelliteLayer);
+                    map.addLayer(layers[defaultSettings.map.baselayer], true);
+                }
+            }
+        }
+    });
+
+
+    /* ================================================================ */
+    /* leaflet map code                                                 */
+    /* ================================================================ */
 
     $scope.followAircraft = true;
 
-    var position = new L.LatLng(0, 0)
+    var position = new L.LatLng(0, 0);
 
     var layers = {
         'OpenStreetMap': new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -98,14 +143,14 @@ function MainCtrl($scope, $timeout, $modal){
             updateWhenIdle: false
         }),
         'Esri WorldImagery': new L.TileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-	        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
         })
     };
 
     var myOptions = {
         zoom: $scope.settings.map.zoomLevel,
         center: position,
-        layers: layers[$scope.settings.map.baselayer]
+        layers: $scope.settings.map.baselayer in layers ? layers[$scope.settings.map.baselayer] : layers[defaultSettings.map.baselayer]
     };
 
     var map = L.map('map', myOptions),
@@ -141,7 +186,7 @@ function MainCtrl($scope, $timeout, $modal){
     });
 
     map.on('baselayerchange', function (layer) {
-        $scope.$apply(function () {
+        $timeout(function () {
             $scope.settings.map.baselayer = layer.name;
         });
     });
@@ -167,6 +212,7 @@ function MainCtrl($scope, $timeout, $modal){
             iconAnchor: new L.Point(28, 28)
         }));
     }, true);
+
 
     /* ================================================================ */
     /* charts                                                           */
