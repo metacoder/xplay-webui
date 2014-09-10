@@ -18,6 +18,7 @@ function MainCtrl($scope, $timeout, $modal){
     var defaultSettings = {
         map: {
             baselayer: 'OpenStreetMap',
+            gmaps: false,
             zoomLevel: 12,
             marker: {
                 variant: 'red_black'
@@ -71,6 +72,22 @@ function MainCtrl($scope, $timeout, $modal){
     /* map code                                                         */
     /* ================================================================ */
 
+    // this is thrown into the global window object since it gets called by
+    // Googles Callback
+    window.addGoogleLayer = (function() {
+        if (typeof google !== 'undefined') {
+            layerControl.addBaseLayer(new L.Google('ROADMAP'), 'Google Road');
+            layerControl.addBaseLayer(new L.Google('SATELLITE'), 'Google Satellite');
+        }
+    }).bind(this);
+
+    if($scope.settings.map.gmaps) {
+        var tag = document.createElement('script');
+        tag.type = 'text/javascript';
+        tag.src = '//maps.googleapis.com/maps/api/js?v=3.exp&callback=addGoogleLayer';
+        document.getElementsByTagName('head')[0].appendChild(tag);
+    }
+
     $scope.followAircraft = true;
 
     var position = new L.LatLng(0, 0)
@@ -79,13 +96,11 @@ function MainCtrl($scope, $timeout, $modal){
         'OpenStreetMap': new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>',
             updateWhenIdle: false
+        }),
+        'Esri WorldImagery': new L.TileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
         })
     };
-
-    if (typeof google !== 'undefined') {
-        layers['Google Road'] = new L.Google('ROADMAP');
-        layers['Google Satellite'] = new L.Google('SATELLITE');
-    }
 
     var myOptions = {
         zoom: $scope.settings.map.zoomLevel,
@@ -93,8 +108,9 @@ function MainCtrl($scope, $timeout, $modal){
         layers: layers[$scope.settings.map.baselayer]
     };
 
-    var map = L.map('map', myOptions);
-    map.addControl(new L.Control.Layers(layers,{}));
+    var map = L.map('map', myOptions),
+        layerControl = new L.Control.Layers(layers, {});
+    map.addControl(layerControl);
 
     var plane = new L.Marker(position, {
         title: 'plane',
