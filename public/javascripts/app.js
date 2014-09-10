@@ -74,23 +74,48 @@ function MainCtrl($scope, $timeout, $modal){
 
     // this is thrown into the global window object since it gets called by
     // Googles Callback
+    var googleRoadmapLayer, googleSatelliteLayer;
     window.addGoogleLayer = (function() {
         if (typeof google !== 'undefined') {
-            layerControl.addBaseLayer(new L.Google('ROADMAP'), 'Google Road');
-            layerControl.addBaseLayer(new L.Google('SATELLITE'), 'Google Satellite');
+            googleRoadmapLayer = new L.Google('ROADMAP');
+            googleSatelliteLayer = new L.Google('SATELLITE');
+            layerControl.addBaseLayer(googleRoadmapLayer, 'Google Road');
+            layerControl.addBaseLayer(googleSatelliteLayer, 'Google Satellite');
         }
     }).bind(this);
 
+    var googleMapsApiAdded = false;
+
     if($scope.settings.map.gmaps) {
+        addGoogleMapsApi();
+    }
+
+    function addGoogleMapsApi() {
         var tag = document.createElement('script');
         tag.type = 'text/javascript';
         tag.src = '//maps.googleapis.com/maps/api/js?v=3.exp&callback=addGoogleLayer';
         document.getElementsByTagName('head')[0].appendChild(tag);
+        googleMapsApiAdded = true;
     }
+
+    $scope.$watch('settings.map.gmaps', function () {
+        if ($scope.settings.map.gmaps) {
+            if (!googleMapsApiAdded) {
+                addGoogleMapsApi();
+            } else {
+                addGoogleLayer();
+            }
+        } else {
+            if (typeof google !== 'undefined') {
+                layerControl.removeLayer(googleRoadmapLayer);
+                layerControl.removeLayer(googleSatelliteLayer);
+            }
+        }
+    });
 
     $scope.followAircraft = true;
 
-    var position = new L.LatLng(0, 0)
+    var position = new L.LatLng(0, 0);
 
     var layers = {
         'OpenStreetMap': new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -98,7 +123,7 @@ function MainCtrl($scope, $timeout, $modal){
             updateWhenIdle: false
         }),
         'Esri WorldImagery': new L.TileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-	        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+	    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
         })
     };
 
