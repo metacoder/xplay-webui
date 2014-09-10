@@ -18,6 +18,7 @@ function MainCtrl($scope, $timeout, $modal){
     var defaultSettings = {
         map: {
             baselayer: 'OpenStreetMap',
+            gmaps: false,
             zoomLevel: 12,
             marker: {
                 variant: 'red_black'
@@ -71,6 +72,22 @@ function MainCtrl($scope, $timeout, $modal){
     /* map code                                                         */
     /* ================================================================ */
 
+    // this is thrown into the global window object since it gets called by
+    // Googles Callback
+    window.addGoogleLayer = (function() {
+        if (typeof google !== 'undefined') {
+            layerControl.addBaseLayer(new L.Google('ROADMAP'), 'Google Road');
+            layerControl.addBaseLayer(new L.Google('SATELLITE'), 'Google Satellite');
+        }
+    }).bind(this);
+
+    if($scope.settings.map.gmaps) {
+        var tag = document.createElement('script');
+        tag.type = 'text/javascript';
+        tag.src = '//maps.googleapis.com/maps/api/js?v=3.exp&callback=addGoogleLayer';
+        document.getElementsByTagName('head')[0].appendChild(tag);
+    }
+
     $scope.followAircraft = true;
 
     var position = new L.LatLng(0, 0)
@@ -85,19 +102,15 @@ function MainCtrl($scope, $timeout, $modal){
         })
     };
 
-    if (typeof google !== 'undefined') {
-        layers['Google Road'] = new L.Google('ROADMAP');
-        layers['Google Satellite'] = new L.Google('SATELLITE');
-    }
-
     var myOptions = {
         zoom: $scope.settings.map.zoomLevel,
         center: position,
         layers: layers[$scope.settings.map.baselayer]
     };
 
-    var map = L.map('map', myOptions);
-    map.addControl(new L.Control.Layers(layers,{}));
+    var map = L.map('map', myOptions),
+        layerControl = new L.Control.Layers(layers, {});
+    map.addControl(layerControl);
 
     var plane = new L.Marker(position, {
         title: 'plane',
